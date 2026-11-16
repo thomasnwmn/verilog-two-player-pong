@@ -11,7 +11,7 @@
 module comb_ckt_generator #(
 	parameter h_pixels = 640,
 	parameter v_pixels = 480,
-	parameter paddle_height = 60,
+	parameter paddle_height = 100,
 	parameter paddle_width = 10
 	)
 
@@ -91,24 +91,44 @@ assign HEX5 = 8'b1111_1111;
 //==============================================================
 reg [8:0] player1y;
 wire player1e, player1f;
+reg [8:0] player2y;
+wire player2e, player2f;
 
-assign player1f = SW[0];
-assign player1e = SW[1];
+assign player1f = SW[8];
+assign player1e = SW[9];
+assign player2f = SW[0];
+assign player2e = SW[1];
+
+wire end_of_frame;
+reg last_end_of_frame;
+wire frame_tick;
+
+assign end_of_frame = (row == 9'd479);
+assign frame_tick = last_end_of_frame && !end_of_frame;
 
 wire player1overlap;
-drawPaddle player1(.row(row),.col(col),.x(10),.y(player1y),.height(paddle_height),.width(paddle_width), .overlap(player1overlap));
+drawPaddle player1(.row(row),.col(col),.x(50),.y(player1y),.height(paddle_height),.width(paddle_width), .overlap(player1overlap));
+wire player2overlap;
+drawPaddle player2(.row(row),.col(col),.x(h_pixels - 50 - paddle_width),.y(player2y),.height(paddle_height),.width(paddle_width), .overlap(player2overlap));
 
 always @(posedge frame_clk) begin
-	if (!player1e && !player1f && player1y + paddle_height + 1 <= v_pixels) // down
-		player1y <= player1y + 1;
-	else if (!player1e && player1f && player1y - 1 <= v_pixels) // up
-		player1y <= player1y - 1;
-	else // not enabled
-		player1y <= player1y;
+	last_end_of_frame <= end_of_frame;
+	
+	// Player 1
+	if (frame_tick && !player1e && !player1f && player1y + paddle_height + 4 <= v_pixels) // down
+		player1y <= player1y + 4;
+	else if (frame_tick && !player1e && player1f && player1y >= 4) // up
+		player1y <= player1y - 4;
+		
+	// player 2
+	if (frame_tick && !player2e && !player2f && player2y + paddle_height + 4 <= v_pixels) // down
+		player2y <= player2y + 4;
+	else if (frame_tick && !player2e && player2f && player2y >= 4) // up
+		player2y <= player2y - 4;
 end
 
-assign red = player1overlap ? 4'hf : 4'h0;
-assign green = player1overlap ? 4'hf : 4'h0;
-assign blue = player1overlap ? 4'hf : 4'h0;
+assign red = (player1overlap | player2overlap) ? 4'hf : 4'h0;
+assign green = (player1overlap | player2overlap) ? 4'hf : 4'h0;
+assign blue = (player1overlap | player2overlap) ? 4'hf : 4'h0;
 
 endmodule
