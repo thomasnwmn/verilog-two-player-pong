@@ -8,7 +8,14 @@
 // 2018/04/24 Routed all board-level switches and LEDs to and from this module
 //============================================================================
 
-module comb_ckt_generator (
+module comb_ckt_generator #(
+	parameter h_pixels = 640,
+	parameter v_pixels = 480,
+	parameter paddle_height = 60,
+	parameter paddle_width = 10
+	)
+
+	(
    // VGA-related signals
    col,
    row,
@@ -25,7 +32,9 @@ module comb_ckt_generator (
    HEX2,
    HEX3,
    HEX4,
-   HEX5
+   HEX5,
+	// clock
+	frame_clk
    );
 
 input  [9:0]  col;
@@ -47,6 +56,8 @@ output [7:0]  HEX3;   // board-level 7-segment display
 output [7:0]  HEX4;   // board-level 7-segment display
 output [7:0]  HEX5;   // board-level 7-segment display
 
+// clock
+input frame_clk;
 
 //============================================================================
 //  reg/wire declarations
@@ -54,7 +65,6 @@ output [7:0]  HEX5;   // board-level 7-segment display
 // More complex implementations will likely declare RGB outputs as regs
 // rather than wires
 wire [3:0]    red, green, blue;    
-
 
 //============================================================================
 // Board-LED related circuits
@@ -73,18 +83,32 @@ assign HEX1 = 8'b1111_1111;
 assign HEX2 = 8'b1111_1111;
 assign HEX3 = 8'b1111_1111;
 assign HEX4 = 8'b1111_1111;
-assign HEX5 = ~{SW[9], SW[8], SW[7], SW[6], SW[5], SW[4], SW[3], SW[2]};
+assign HEX5 = 8'b1111_1111;
 
 
 //==============================================================
 // VGA display related circuits
 //==============================================================
+reg [8:0] player1y;
+wire player1e, player1f;
 
-// Temporary simple logic
-// Full intensity is SW[0] is '1'. Blank otherwise
-assign red     = SW[0] ? 4'hf : 4'h0; 
-assign green   = SW[1] ? 4'hf : 4'h0;
-assign blue    = SW[2] ? 4'hf : 4'h0;
+assign player1f = SW[0];
+assign player1e = SW[1];
 
+wire player1overlap;
+drawPaddle player1(.row(row),.col(col),.x(10),.y(player1y),.height(paddle_height),.width(paddle_width), .overlap(player1overlap));
+
+always @(posedge frame_clk) begin
+	if (!player1e && !player1f && player1y + paddle_height + 1 <= v_pixels) // down
+		player1y <= player1y + 1;
+	else if (!player1e && player1f && player1y - 1 <= v_pixels) // up
+		player1y <= player1y - 1;
+	else // not enabled
+		player1y <= player1y;
+end
+
+assign red = player1overlap ? 4'hf : 4'h0;
+assign green = player1overlap ? 4'hf : 4'h0;
+assign blue = player1overlap ? 4'hf : 4'h0;
 
 endmodule

@@ -76,7 +76,8 @@ comb_ckt_generator comb_ckt (
    .HEX2  (HEX2),       // board-level 7-segment display
    .HEX3  (HEX3),       // board-level 7-segment display
    .HEX4  (HEX4),       // board-level 7-segment display
-   .HEX5  (HEX5)        // board-level 7-segment display
+   .HEX5  (HEX5),       // board-level 7-segment display
+	.frame_clk (vga_clk)
    );
 
 //============================================================================
