@@ -12,7 +12,8 @@ module comb_ckt_generator #(
 	parameter h_pixels = 640,
 	parameter v_pixels = 480,
 	parameter paddle_height = 100,
-	parameter paddle_width = 10
+	parameter paddle_width = 10,
+	parameter ball_radius = 8
 	)
 
 	(
@@ -94,8 +95,8 @@ wire player1e, player1f;
 reg [8:0] player2y;
 wire player2e, player2f;
 
-assign player1f = SW[8];
-assign player1e = SW[9];
+assign player1f = SW[9];
+assign player1e = SW[8];
 assign player2f = SW[0];
 assign player2e = SW[1];
 
@@ -111,9 +112,31 @@ drawPaddle player1(.row(row),.col(col),.x(50),.y(player1y),.height(paddle_height
 wire player2overlap;
 drawPaddle player2(.row(row),.col(col),.x(h_pixels - 50 - paddle_width),.y(player2y),.height(paddle_height),.width(paddle_width), .overlap(player2overlap));
 
+wire ballOverlap;
+drawBall ball(.row(row),.col(col),.x(ballPosition_x),.y(ballPosition_y),.radius(ball_radius), .overlap(ballOverlap));
+
+reg [3:0] ballVelocity_x, ballVelocity_y;
+reg [9:0] ballPosition_x, ballPosition_y;
+
+	wire out_left = (ballPosition_x - ball_radius <= 0);
+	wire out_right = (ballPosition_x + ball_radius >= h_pixels);
+	wire out_top = (ballPosition_y - ball_radius <= 0);
+	wire out_bottom = (ballPosition_y + ball_radius >= v_pixels);
+
+initial begin
+	
+	ballPosition_x <= 320;
+	ballPosition_y <= 240;
+	
+	ballVelocity_x <= 2;
+	ballVelocity_y <= 2;
+
+end
+
 always @(posedge frame_clk) begin
 	last_end_of_frame <= end_of_frame;
 	
+	// paddle movement
 	// Player 1
 	if (frame_tick && !player1e && !player1f && player1y + paddle_height + 4 <= v_pixels) // down
 		player1y <= player1y + 4;
@@ -125,10 +148,25 @@ always @(posedge frame_clk) begin
 		player2y <= player2y + 4;
 	else if (frame_tick && !player2e && player2f && player2y >= 4) // up
 		player2y <= player2y - 4;
+		
+	// ball movement
+
+	if (frame_tick && !out_right && !out_left && !out_bottom && !out_top) begin
+		ballPosition_x <= ballPosition_x + ballVelocity_x; // general case
+		ballPosition_y <= ballPosition_y + ballVelocity_y;
+	end else if (frame_tick && out_right && !out_left && !out_bottom && !out_top | !out_right && out_left && !out_bottom && !out_top) begin
+		ballVelocity_x <= -ballVelocity_x; // case where the ball hits the vertical walls
+		ballPosition_x <= ballPosition_x + ballVelocity_x * 2;
+		ballPosition_y <= ballPosition_y + ballVelocity_y * 2;
+	end else if (frame_tick && !out_right && !out_left && out_bottom && !out_top | !out_right && !out_left && !out_bottom && !out_top) begin
+		ballVelocity_y <= -ballVelocity_y; // case where the ball hits the horizontal walls
+		ballPosition_x <= ballPosition_x + ballVelocity_x * 2;
+		ballPosition_y <= ballPosition_y + ballVelocity_y * 2;
+	end
 end
 
-assign red = (player1overlap | player2overlap) ? 4'hf : 4'h0;
-assign green = (player1overlap | player2overlap) ? 4'hf : 4'h0;
-assign blue = (player1overlap | player2overlap) ? 4'hf : 4'h0;
+assign red = (player1overlap | player2overlap | ballOverlap) ? 4'hf : 4'h0;
+assign green = (player1overlap | player2overlap | ballOverlap) ? 4'hf : 4'h0;
+assign blue = (player1overlap | player2overlap | ballOverlap) ? 4'hf : 4'h0;
 
 endmodule

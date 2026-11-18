@@ -1,0 +1,4 @@
+v1
+DSP_BALANCING_IMPLEMENTATION,DSP_BLOCKS,comb_ckt_generator:comb_ckt|drawBall:ball|lpm_mult:Mult2|mult_bgs:auto_generated|mac_out2,
+DSP_BALANCING_IMPLEMENTATION,DSP_BLOCKS,comb_ckt_generator:comb_ckt|drawBall:ball|lpm_mult:Mult1|mult_fgs:auto_generated|mac_out2,
+PORT_SWAPPING,PORT_SWAPPING_FINISHED,comb_ckt_generator:comb_ckt|drawBall:ball|lpm_mult:Mult1|mult_fgs:auto_generated|mac_mult1,
