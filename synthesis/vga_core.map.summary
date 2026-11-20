@@ -1,12 +1,23 @@
+<<<<<<< HEAD
 Analysis & Synthesis Status : Successful - Wed Nov 18 14:23:32 2026
+=======
+Analysis & Synthesis Status : Successful - Fri Nov 20 15:43:44 2026
+>>>>>>> 900f1eb (Update project files to include pong ball bounces against paddles and walls, hitting a vertical wall rests the ball to the neutral position.)
 Quartus Prime Version : 20.1.1 Build 720 11/11/2020 SJ Lite Edition
 Revision Name : vga_core
 Top-level Entity Name : top
 Family : MAX 10
+<<<<<<< HEAD
 Total logic elements : 272
     Total combinational functions : 259
     Dedicated logic registers : 86
 Total registers : 86
+=======
+Total logic elements : 362
+    Total combinational functions : 349
+    Dedicated logic registers : 94
+Total registers : 94
+>>>>>>> 900f1eb (Update project files to include pong ball bounces against paddles and walls, hitting a vertical wall rests the ball to the neutral position.)
 Total pins : 87
 Total virtual pins : 0
 Total memory bits : 0

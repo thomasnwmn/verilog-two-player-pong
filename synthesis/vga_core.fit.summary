@@ -1,14 +1,25 @@
+<<<<<<< HEAD
 Fitter Status : Successful - Wed Nov 18 14:23:35 2026
+=======
+Fitter Status : Successful - Fri Nov 20 15:43:47 2026
+>>>>>>> 900f1eb (Update project files to include pong ball bounces against paddles and walls, hitting a vertical wall rests the ball to the neutral position.)
 Quartus Prime Version : 20.1.1 Build 720 11/11/2020 SJ Lite Edition
 Revision Name : vga_core
 Top-level Entity Name : top
 Family : MAX 10
 Device : 10M50DAF484C7G
 Timing Models : Final
+<<<<<<< HEAD
 Total logic elements : 276 / 49,760 ( < 1 % )
     Total combinational functions : 260 / 49,760 ( < 1 % )
     Dedicated logic registers : 86 / 49,760 ( < 1 % )
 Total registers : 86
+=======
+Total logic elements : 365 / 49,760 ( < 1 % )
+    Total combinational functions : 350 / 49,760 ( < 1 % )
+    Dedicated logic registers : 94 / 49,760 ( < 1 % )
+Total registers : 94
+>>>>>>> 900f1eb (Update project files to include pong ball bounces against paddles and walls, hitting a vertical wall rests the ball to the neutral position.)
 Total pins : 87 / 360 ( 24 % )
 Total virtual pins : 0
 Total memory bits : 0 / 1,677,312 ( 0 % )

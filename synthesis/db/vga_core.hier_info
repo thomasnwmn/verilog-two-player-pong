@@ -122,11 +122,20 @@ blue[2] <= red.DB_MAX_OUTPUT_PORT_TYPE
 blue[3] <= red.DB_MAX_OUTPUT_PORT_TYPE
 KEY[0] => ~NO_FANOUT~
 KEY[1] => ~NO_FANOUT~
+<<<<<<< HEAD
 SW[0] => always0.IN1
 SW[0] => LEDR[0].DATAIN
 SW[0] => always0.IN1
 SW[1] => LEDR[1].DATAIN
 SW[1] => always0.IN1
+=======
+SW[0] => always0.IN0
+SW[0] => LEDR[0].DATAIN
+SW[0] => always0.IN0
+SW[1] => LEDR[1].DATAIN
+SW[1] => always0.IN1
+SW[1] => always0.IN1
+>>>>>>> 900f1eb (Update project files to include pong ball bounces against paddles and walls, hitting a vertical wall rests the ball to the neutral position.)
 SW[2] => LEDR[2].DATAIN
 SW[3] => LEDR[3].DATAIN
 SW[4] => LEDR[4].DATAIN
@@ -134,7 +143,12 @@ SW[5] => LEDR[5].DATAIN
 SW[6] => LEDR[6].DATAIN
 SW[7] => LEDR[7].DATAIN
 SW[8] => LEDR[8].DATAIN
+<<<<<<< HEAD
 SW[8] => always0.IN1
+=======
+SW[8] => always0.IN0
+SW[8] => always0.IN0
+>>>>>>> 900f1eb (Update project files to include pong ball bounces against paddles and walls, hitting a vertical wall rests the ball to the neutral position.)
 SW[9] => always0.IN1
 SW[9] => LEDR[9].DATAIN
 SW[9] => always0.IN1
@@ -200,10 +214,19 @@ frame_clk => ballVelocity_y[0].CLK
 frame_clk => ballVelocity_y[1].CLK
 frame_clk => ballVelocity_y[2].CLK
 frame_clk => ballVelocity_y[3].CLK
+<<<<<<< HEAD
 frame_clk => ballVelocity_x[0].CLK
 frame_clk => ballVelocity_x[1].CLK
 frame_clk => ballVelocity_x[2].CLK
 frame_clk => ballVelocity_x[3].CLK
+=======
+frame_clk => ballVelocity_y[4].CLK
+frame_clk => ballVelocity_y[5].CLK
+frame_clk => ballVelocity_y[6].CLK
+frame_clk => ballVelocity_y[7].CLK
+frame_clk => ballVelocity_y[8].CLK
+frame_clk => ballVelocity_y[9].CLK
+>>>>>>> 900f1eb (Update project files to include pong ball bounces against paddles and walls, hitting a vertical wall rests the ball to the neutral position.)
 frame_clk => ballPosition_y[0].CLK
 frame_clk => ballPosition_y[1].CLK
 frame_clk => ballPosition_y[2].CLK
@@ -224,6 +247,19 @@ frame_clk => ballPosition_x[6].CLK
 frame_clk => ballPosition_x[7].CLK
 frame_clk => ballPosition_x[8].CLK
 frame_clk => ballPosition_x[9].CLK
+<<<<<<< HEAD
+=======
+frame_clk => ballVelocity_x[0].CLK
+frame_clk => ballVelocity_x[1].CLK
+frame_clk => ballVelocity_x[2].CLK
+frame_clk => ballVelocity_x[3].CLK
+frame_clk => ballVelocity_x[4].CLK
+frame_clk => ballVelocity_x[5].CLK
+frame_clk => ballVelocity_x[6].CLK
+frame_clk => ballVelocity_x[7].CLK
+frame_clk => ballVelocity_x[8].CLK
+frame_clk => ballVelocity_x[9].CLK
+>>>>>>> 900f1eb (Update project files to include pong ball bounces against paddles and walls, hitting a vertical wall rests the ball to the neutral position.)
 frame_clk => player2y[2].CLK
 frame_clk => player2y[3].CLK
 frame_clk => player2y[4].CLK

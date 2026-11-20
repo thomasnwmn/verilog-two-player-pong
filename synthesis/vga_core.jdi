@@ -1,6 +1,10 @@
 <sld_project_info>
   <project>
+<<<<<<< HEAD
     <hash md5_digest_80b="7b01a017af67f42e2795"/>
+=======
+    <hash md5_digest_80b="e09dc3ec8ff1a6b9785f"/>
+>>>>>>> 900f1eb (Update project files to include pong ball bounces against paddles and walls, hitting a vertical wall rests the ball to the neutral position.)
   </project>
   <file_info>
     <file device="10M50DAF484C7G" path="vga_core.sof" usercode="0xFFFFFFFF"/>

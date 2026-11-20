@@ -1,5 +1,9 @@
 Flow report for vga_core
+<<<<<<< HEAD
 Wed Nov 18 14:23:39 2026
+=======
+Fri Nov 20 15:43:51 2026
+>>>>>>> 900f1eb (Update project files to include pong ball bounces against paddles and walls, hitting a vertical wall rests the ball to the neutral position.)
 Quartus Prime Version 20.1.1 Build 720 11/11/2020 SJ Lite Edition
 
 
@@ -41,17 +45,28 @@ https://fpgasoftware.intel.com/eula.
 +----------------------------------------------------------------------------------+
 ; Flow Summary                                                                     ;
 +------------------------------------+---------------------------------------------+
+<<<<<<< HEAD
 ; Flow Status                        ; Successful - Wed Nov 18 14:23:37 2026       ;
+=======
+; Flow Status                        ; Successful - Fri Nov 20 15:43:49 2026       ;
+>>>>>>> 900f1eb (Update project files to include pong ball bounces against paddles and walls, hitting a vertical wall rests the ball to the neutral position.)
 ; Quartus Prime Version              ; 20.1.1 Build 720 11/11/2020 SJ Lite Edition ;
 ; Revision Name                      ; vga_core                                    ;
 ; Top-level Entity Name              ; top                                         ;
 ; Family                             ; MAX 10                                      ;
 ; Device                             ; 10M50DAF484C7G                              ;
 ; Timing Models                      ; Final                                       ;
+<<<<<<< HEAD
 ; Total logic elements               ; 276 / 49,760 ( < 1 % )                      ;
 ;     Total combinational functions  ; 260 / 49,760 ( < 1 % )                      ;
 ;     Dedicated logic registers      ; 86 / 49,760 ( < 1 % )                       ;
 ; Total registers                    ; 86                                          ;
+=======
+; Total logic elements               ; 365 / 49,760 ( < 1 % )                      ;
+;     Total combinational functions  ; 350 / 49,760 ( < 1 % )                      ;
+;     Dedicated logic registers      ; 94 / 49,760 ( < 1 % )                       ;
+; Total registers                    ; 94                                          ;
+>>>>>>> 900f1eb (Update project files to include pong ball bounces against paddles and walls, hitting a vertical wall rests the ball to the neutral position.)
 ; Total pins                         ; 87 / 360 ( 24 % )                           ;
 ; Total virtual pins                 ; 0                                           ;
 ; Total memory bits                  ; 0 / 1,677,312 ( 0 % )                       ;
@@ -67,7 +82,11 @@ https://fpgasoftware.intel.com/eula.
 +-------------------+---------------------+
 ; Option            ; Setting             ;
 +-------------------+---------------------+
+<<<<<<< HEAD
 ; Start date & time ; 11/18/2026 14:23:28 ;
+=======
+; Start date & time ; 11/20/2026 15:43:40 ;
+>>>>>>> 900f1eb (Update project files to include pong ball bounces against paddles and walls, hitting a vertical wall rests the ball to the neutral position.)
 ; Main task         ; Compilation         ;
 ; Revision Name     ; vga_core            ;
 +-------------------+---------------------+
@@ -78,7 +97,11 @@ https://fpgasoftware.intel.com/eula.
 +-------------------------------------+----------------------------------------+---------------+-------------+------------+
 ; Assignment Name                     ; Value                                  ; Default Value ; Entity Name ; Section Id ;
 +-------------------------------------+----------------------------------------+---------------+-------------+------------+
+<<<<<<< HEAD
 ; COMPILER_SIGNATURE_ID               ; 184978421779324.179502980807119        ; --            ; --          ; --         ;
+=======
+; COMPILER_SIGNATURE_ID               ; 184978421783752.179520742017443        ; --            ; --          ; --         ;
+>>>>>>> 900f1eb (Update project files to include pong ball bounces against paddles and walls, hitting a vertical wall rests the ball to the neutral position.)
 ; MAX_CORE_JUNCTION_TEMP              ; 85                                     ; --            ; --          ; --         ;
 ; MIN_CORE_JUNCTION_TEMP              ; 0                                      ; --            ; --          ; --         ;
 ; MISC_FILE                           ; ../ip/pll.ppf                          ; --            ; --          ; --         ;
@@ -96,10 +119,17 @@ https://fpgasoftware.intel.com/eula.
 +----------------------+--------------+-------------------------+---------------------+------------------------------------+
 ; Module Name          ; Elapsed Time ; Average Processors Used ; Peak Virtual Memory ; Total CPU Time (on all processors) ;
 +----------------------+--------------+-------------------------+---------------------+------------------------------------+
+<<<<<<< HEAD
 ; Analysis & Synthesis ; 00:00:04     ; 1.0                     ; 708 MB              ; 00:00:10                           ;
 ; Fitter               ; 00:00:03     ; 1.1                     ; 2272 MB             ; 00:00:06                           ;
 ; Assembler            ; 00:00:01     ; 1.0                     ; 574 MB              ; 00:00:01                           ;
 ; Timing Analyzer      ; 00:00:01     ; 1.2                     ; 888 MB              ; 00:00:01                           ;
+=======
+; Analysis & Synthesis ; 00:00:03     ; 1.0                     ; 713 MB              ; 00:00:10                           ;
+; Fitter               ; 00:00:03     ; 1.2                     ; 2275 MB             ; 00:00:06                           ;
+; Assembler            ; 00:00:01     ; 1.0                     ; 575 MB              ; 00:00:01                           ;
+; Timing Analyzer      ; 00:00:02     ; 1.2                     ; 889 MB              ; 00:00:01                           ;
+>>>>>>> 900f1eb (Update project files to include pong ball bounces against paddles and walls, hitting a vertical wall rests the ball to the neutral position.)
 ; Total                ; 00:00:09     ; --                      ; --                  ; 00:00:18                           ;
 +----------------------+--------------+-------------------------+---------------------+------------------------------------+
 
@@ -109,10 +139,17 @@ https://fpgasoftware.intel.com/eula.
 +----------------------+------------------+-------------+-------------+----------------+
 ; Module Name          ; Machine Hostname ; OS Name     ; OS Version  ; Processor type ;
 +----------------------+------------------+-------------+-------------+----------------+
+<<<<<<< HEAD
 ; Analysis & Synthesis ; gsp15            ; Rocky Linux ; Rocky Linux ; x86_64         ;
 ; Fitter               ; gsp15            ; Rocky Linux ; Rocky Linux ; x86_64         ;
 ; Assembler            ; gsp15            ; Rocky Linux ; Rocky Linux ; x86_64         ;
 ; Timing Analyzer      ; gsp15            ; Rocky Linux ; Rocky Linux ; x86_64         ;
+=======
+; Analysis & Synthesis ; gsp20            ; Rocky Linux ; Rocky Linux ; x86_64         ;
+; Fitter               ; gsp20            ; Rocky Linux ; Rocky Linux ; x86_64         ;
+; Assembler            ; gsp20            ; Rocky Linux ; Rocky Linux ; x86_64         ;
+; Timing Analyzer      ; gsp20            ; Rocky Linux ; Rocky Linux ; x86_64         ;
+>>>>>>> 900f1eb (Update project files to include pong ball bounces against paddles and walls, hitting a vertical wall rests the ball to the neutral position.)
 +----------------------+------------------+-------------+-------------+----------------+
 
 

@@ -1,5 +1,9 @@
 Timing Analyzer report for vga_core
+<<<<<<< HEAD
 Wed Nov 18 14:23:39 2026
+=======
+Fri Nov 20 15:43:51 2026
+>>>>>>> 900f1eb (Update project files to include pong ball bounces against paddles and walls, hitting a vertical wall rests the ball to the neutral position.)
 Quartus Prime Version 20.1.1 Build 720 11/11/2020 SJ Lite Edition
 
 
@@ -93,14 +97,24 @@ https://fpgasoftware.intel.com/eula.
 ; Number detected on machine ; 24          ;
 ; Maximum allowed            ; 16          ;
 ;                            ;             ;
+<<<<<<< HEAD
 ; Average used               ; 1.20        ;
+=======
+; Average used               ; 1.24        ;
+>>>>>>> 900f1eb (Update project files to include pong ball bounces against paddles and walls, hitting a vertical wall rests the ball to the neutral position.)
 ; Maximum used               ; 16          ;
 ;                            ;             ;
 ; Usage by Processor         ; % Time Used ;
 ;     Processor 1            ; 100.0%      ;
+<<<<<<< HEAD
 ;     Processor 2            ;   1.6%      ;
 ;     Processor 3            ;   1.4%      ;
 ;     Processors 4-16        ;   1.3%      ;
+=======
+;     Processor 2            ;   2.0%      ;
+;     Processor 3            ;   1.6%      ;
+;     Processors 4-16        ;   1.6%      ;
+>>>>>>> 900f1eb (Update project files to include pong ball bounces against paddles and walls, hitting a vertical wall rests the ball to the neutral position.)
 +----------------------------+-------------+
 
 
@@ -109,7 +123,11 @@ https://fpgasoftware.intel.com/eula.
 +---------------+--------+--------------------------+
 ; SDC File Path ; Status ; Read at                  ;
 +---------------+--------+--------------------------+
+<<<<<<< HEAD
 ; vga_core.sdc  ; OK     ; Wed Nov 18 14:23:38 2026 ;
+=======
+; vga_core.sdc  ; OK     ; Fri Nov 20 15:43:50 2026 ;
+>>>>>>> 900f1eb (Update project files to include pong ball bounces against paddles and walls, hitting a vertical wall rests the ball to the neutral position.)
 +---------------+--------+--------------------------+
 
 
@@ -130,7 +148,11 @@ https://fpgasoftware.intel.com/eula.
 +-----------+-----------------+---------------------------------------------------------+------+
 ; Fmax      ; Restricted Fmax ; Clock Name                                              ; Note ;
 +-----------+-----------------+---------------------------------------------------------+------+
+<<<<<<< HEAD
 ; 62.28 MHz ; 62.28 MHz       ; vgapll_inst|altpll_component|auto_generated|pll1|clk[0] ;      ;
+=======
+; 64.23 MHz ; 64.23 MHz       ; vgapll_inst|altpll_component|auto_generated|pll1|clk[0] ;      ;
+>>>>>>> 900f1eb (Update project files to include pong ball bounces against paddles and walls, hitting a vertical wall rests the ball to the neutral position.)
 +-----------+-----------------+---------------------------------------------------------+------+
 This panel reports FMAX for every clock in the design, regardless of the user-specified clock periods.  FMAX is only computed for paths where the source and destination registers or ports are driven by the same clock.  Paths of different clocks, including generated clocks, are ignored.  For paths between a clock and its inversion, FMAX is computed as if the rising and falling edges are scaled along with FMAX, such that the duty cycle (in terms of a percentage) is maintained. Altera recommends that you always use clock constraints and other slack reports for sign-off analysis.
 
@@ -140,7 +162,11 @@ This panel reports FMAX for every clock in the design, regardless of the user-sp
 +---------------------------------------------------------+--------+---------------+
 ; Clock                                                   ; Slack  ; End Point TNS ;
 +---------------------------------------------------------+--------+---------------+
+<<<<<<< HEAD
 ; vgapll_inst|altpll_component|auto_generated|pll1|clk[0] ; 23.943 ; 0.000         ;
+=======
+; vgapll_inst|altpll_component|auto_generated|pll1|clk[0] ; 24.430 ; 0.000         ;
+>>>>>>> 900f1eb (Update project files to include pong ball bounces against paddles and walls, hitting a vertical wall rests the ball to the neutral position.)
 +---------------------------------------------------------+--------+---------------+
 
 
@@ -149,7 +175,11 @@ This panel reports FMAX for every clock in the design, regardless of the user-sp
 +---------------------------------------------------------+-------+---------------+
 ; Clock                                                   ; Slack ; End Point TNS ;
 +---------------------------------------------------------+-------+---------------+
+<<<<<<< HEAD
 ; vgapll_inst|altpll_component|auto_generated|pll1|clk[0] ; 0.502 ; 0.000         ;
+=======
+; vgapll_inst|altpll_component|auto_generated|pll1|clk[0] ; 0.424 ; 0.000         ;
+>>>>>>> 900f1eb (Update project files to include pong ball bounces against paddles and walls, hitting a vertical wall rests the ball to the neutral position.)
 +---------------------------------------------------------+-------+---------------+
 
 
@@ -172,7 +202,11 @@ No paths to report.
 +---------------------------------------------------------+--------+---------------+
 ; MAX10_CLK1_50                                           ; 9.820  ; 0.000         ;
 ; MAX10_CLK2_50                                           ; 16.000 ; 0.000         ;
+<<<<<<< HEAD
 ; vgapll_inst|altpll_component|auto_generated|pll1|clk[0] ; 19.720 ; 0.000         ;
+=======
+; vgapll_inst|altpll_component|auto_generated|pll1|clk[0] ; 19.721 ; 0.000         ;
+>>>>>>> 900f1eb (Update project files to include pong ball bounces against paddles and walls, hitting a vertical wall rests the ball to the neutral position.)
 ; ADC_CLK_10                                              ; 96.000 ; 0.000         ;
 +---------------------------------------------------------+--------+---------------+
 
@@ -184,7 +218,11 @@ The design MTBF is not calculated because there are no specified synchronizers i
 Number of Synchronizer Chains Found: 2
 Shortest Synchronizer Chain: 2 Registers
 Fraction of Chains for which MTBFs Could Not be Calculated: 1.000
+<<<<<<< HEAD
 Worst Case Available Settling Time: 39.243 ns
+=======
+Worst Case Available Settling Time: 39.245 ns
+>>>>>>> 900f1eb (Update project files to include pong ball bounces against paddles and walls, hitting a vertical wall rests the ball to the neutral position.)
 
 
 
@@ -194,7 +232,11 @@ Worst Case Available Settling Time: 39.243 ns
 +-----------+-----------------+---------------------------------------------------------+------+
 ; Fmax      ; Restricted Fmax ; Clock Name                                              ; Note ;
 +-----------+-----------------+---------------------------------------------------------+------+
+<<<<<<< HEAD
 ; 67.64 MHz ; 67.64 MHz       ; vgapll_inst|altpll_component|auto_generated|pll1|clk[0] ;      ;
+=======
+; 70.27 MHz ; 70.27 MHz       ; vgapll_inst|altpll_component|auto_generated|pll1|clk[0] ;      ;
+>>>>>>> 900f1eb (Update project files to include pong ball bounces against paddles and walls, hitting a vertical wall rests the ball to the neutral position.)
 +-----------+-----------------+---------------------------------------------------------+------+
 This panel reports FMAX for every clock in the design, regardless of the user-specified clock periods.  FMAX is only computed for paths where the source and destination registers or ports are driven by the same clock.  Paths of different clocks, including generated clocks, are ignored.  For paths between a clock and its inversion, FMAX is computed as if the rising and falling edges are scaled along with FMAX, such that the duty cycle (in terms of a percentage) is maintained. Altera recommends that you always use clock constraints and other slack reports for sign-off analysis.
 
@@ -204,7 +246,11 @@ This panel reports FMAX for every clock in the design, regardless of the user-sp
 +---------------------------------------------------------+--------+---------------+
 ; Clock                                                   ; Slack  ; End Point TNS ;
 +---------------------------------------------------------+--------+---------------+
+<<<<<<< HEAD
 ; vgapll_inst|altpll_component|auto_generated|pll1|clk[0] ; 25.216 ; 0.000         ;
+=======
+; vgapll_inst|altpll_component|auto_generated|pll1|clk[0] ; 25.769 ; 0.000         ;
+>>>>>>> 900f1eb (Update project files to include pong ball bounces against paddles and walls, hitting a vertical wall rests the ball to the neutral position.)
 +---------------------------------------------------------+--------+---------------+
 
 
@@ -213,7 +259,11 @@ This panel reports FMAX for every clock in the design, regardless of the user-sp
 +---------------------------------------------------------+-------+---------------+
 ; Clock                                                   ; Slack ; End Point TNS ;
 +---------------------------------------------------------+-------+---------------+
+<<<<<<< HEAD
 ; vgapll_inst|altpll_component|auto_generated|pll1|clk[0] ; 0.421 ; 0.000         ;
+=======
+; vgapll_inst|altpll_component|auto_generated|pll1|clk[0] ; 0.342 ; 0.000         ;
+>>>>>>> 900f1eb (Update project files to include pong ball bounces against paddles and walls, hitting a vertical wall rests the ball to the neutral position.)
 +---------------------------------------------------------+-------+---------------+
 
 
@@ -236,7 +286,11 @@ No paths to report.
 +---------------------------------------------------------+--------+---------------+
 ; MAX10_CLK1_50                                           ; 9.830  ; 0.000         ;
 ; MAX10_CLK2_50                                           ; 16.000 ; 0.000         ;
+<<<<<<< HEAD
 ; vgapll_inst|altpll_component|auto_generated|pll1|clk[0] ; 19.709 ; 0.000         ;
+=======
+; vgapll_inst|altpll_component|auto_generated|pll1|clk[0] ; 19.710 ; 0.000         ;
+>>>>>>> 900f1eb (Update project files to include pong ball bounces against paddles and walls, hitting a vertical wall rests the ball to the neutral position.)
 ; ADC_CLK_10                                              ; 96.000 ; 0.000         ;
 +---------------------------------------------------------+--------+---------------+
 
@@ -248,7 +302,11 @@ The design MTBF is not calculated because there are no specified synchronizers i
 Number of Synchronizer Chains Found: 2
 Shortest Synchronizer Chain: 2 Registers
 Fraction of Chains for which MTBFs Could Not be Calculated: 1.000
+<<<<<<< HEAD
 Worst Case Available Settling Time: 39.272 ns
+=======
+Worst Case Available Settling Time: 39.274 ns
+>>>>>>> 900f1eb (Update project files to include pong ball bounces against paddles and walls, hitting a vertical wall rests the ball to the neutral position.)
 
 
 
@@ -258,7 +316,11 @@ Worst Case Available Settling Time: 39.272 ns
 +---------------------------------------------------------+--------+---------------+
 ; Clock                                                   ; Slack  ; End Point TNS ;
 +---------------------------------------------------------+--------+---------------+
+<<<<<<< HEAD
 ; vgapll_inst|altpll_component|auto_generated|pll1|clk[0] ; 33.019 ; 0.000         ;
+=======
+; vgapll_inst|altpll_component|auto_generated|pll1|clk[0] ; 33.297 ; 0.000         ;
+>>>>>>> 900f1eb (Update project files to include pong ball bounces against paddles and walls, hitting a vertical wall rests the ball to the neutral position.)
 +---------------------------------------------------------+--------+---------------+
 
 
@@ -267,7 +329,11 @@ Worst Case Available Settling Time: 39.272 ns
 +---------------------------------------------------------+-------+---------------+
 ; Clock                                                   ; Slack ; End Point TNS ;
 +---------------------------------------------------------+-------+---------------+
+<<<<<<< HEAD
 ; vgapll_inst|altpll_component|auto_generated|pll1|clk[0] ; 0.218 ; 0.000         ;
+=======
+; vgapll_inst|altpll_component|auto_generated|pll1|clk[0] ; 0.210 ; 0.000         ;
+>>>>>>> 900f1eb (Update project files to include pong ball bounces against paddles and walls, hitting a vertical wall rests the ball to the neutral position.)
 +---------------------------------------------------------+-------+---------------+
 
 
@@ -302,7 +368,11 @@ The design MTBF is not calculated because there are no specified synchronizers i
 Number of Synchronizer Chains Found: 2
 Shortest Synchronizer Chain: 2 Registers
 Fraction of Chains for which MTBFs Could Not be Calculated: 1.000
+<<<<<<< HEAD
 Worst Case Available Settling Time: 39.693 ns
+=======
+Worst Case Available Settling Time: 39.694 ns
+>>>>>>> 900f1eb (Update project files to include pong ball bounces against paddles and walls, hitting a vertical wall rests the ball to the neutral position.)
 
 
 
@@ -312,11 +382,19 @@ Worst Case Available Settling Time: 39.693 ns
 +----------------------------------------------------------+--------+-------+----------+---------+---------------------+
 ; Clock                                                    ; Setup  ; Hold  ; Recovery ; Removal ; Minimum Pulse Width ;
 +----------------------------------------------------------+--------+-------+----------+---------+---------------------+
+<<<<<<< HEAD
 ; Worst-case Slack                                         ; 23.943 ; 0.218 ; N/A      ; N/A     ; 9.530               ;
 ;  ADC_CLK_10                                              ; N/A    ; N/A   ; N/A      ; N/A     ; 96.000              ;
 ;  MAX10_CLK1_50                                           ; N/A    ; N/A   ; N/A      ; N/A     ; 9.530               ;
 ;  MAX10_CLK2_50                                           ; N/A    ; N/A   ; N/A      ; N/A     ; 16.000              ;
 ;  vgapll_inst|altpll_component|auto_generated|pll1|clk[0] ; 23.943 ; 0.218 ; N/A      ; N/A     ; 19.709              ;
+=======
+; Worst-case Slack                                         ; 24.430 ; 0.210 ; N/A      ; N/A     ; 9.530               ;
+;  ADC_CLK_10                                              ; N/A    ; N/A   ; N/A      ; N/A     ; 96.000              ;
+;  MAX10_CLK1_50                                           ; N/A    ; N/A   ; N/A      ; N/A     ; 9.530               ;
+;  MAX10_CLK2_50                                           ; N/A    ; N/A   ; N/A      ; N/A     ; 16.000              ;
+;  vgapll_inst|altpll_component|auto_generated|pll1|clk[0] ; 24.430 ; 0.210 ; N/A      ; N/A     ; 19.710              ;
+>>>>>>> 900f1eb (Update project files to include pong ball bounces against paddles and walls, hitting a vertical wall rests the ball to the neutral position.)
 ; Design-wide TNS                                          ; 0.0    ; 0.0   ; 0.0      ; 0.0     ; 0.0                 ;
 ;  ADC_CLK_10                                              ; N/A    ; N/A   ; N/A      ; N/A     ; 0.000               ;
 ;  MAX10_CLK1_50                                           ; N/A    ; N/A   ; N/A      ; N/A     ; 0.000               ;
@@ -684,7 +762,11 @@ Worst Case Available Settling Time: 39.693 ns
 +---------------------------------------------------------+---------------------------------------------------------+----------+----------+----------+----------+
 ; From Clock                                              ; To Clock                                                ; RR Paths ; FR Paths ; RF Paths ; FF Paths ;
 +---------------------------------------------------------+---------------------------------------------------------+----------+----------+----------+----------+
+<<<<<<< HEAD
 ; vgapll_inst|altpll_component|auto_generated|pll1|clk[0] ; vgapll_inst|altpll_component|auto_generated|pll1|clk[0] ; 819858   ; 0        ; 0        ; 0        ;
+=======
+; vgapll_inst|altpll_component|auto_generated|pll1|clk[0] ; vgapll_inst|altpll_component|auto_generated|pll1|clk[0] ; 1260401  ; 0        ; 0        ; 0        ;
+>>>>>>> 900f1eb (Update project files to include pong ball bounces against paddles and walls, hitting a vertical wall rests the ball to the neutral position.)
 +---------------------------------------------------------+---------------------------------------------------------+----------+----------+----------+----------+
 Entries labeled "false path" only account for clock-to-clock false paths and not path-based false paths. As a result, actual path counts may be lower than reported.
 
@@ -694,7 +776,11 @@ Entries labeled "false path" only account for clock-to-clock false paths and not
 +---------------------------------------------------------+---------------------------------------------------------+----------+----------+----------+----------+
 ; From Clock                                              ; To Clock                                                ; RR Paths ; FR Paths ; RF Paths ; FF Paths ;
 +---------------------------------------------------------+---------------------------------------------------------+----------+----------+----------+----------+
+<<<<<<< HEAD
 ; vgapll_inst|altpll_component|auto_generated|pll1|clk[0] ; vgapll_inst|altpll_component|auto_generated|pll1|clk[0] ; 819858   ; 0        ; 0        ; 0        ;
+=======
+; vgapll_inst|altpll_component|auto_generated|pll1|clk[0] ; vgapll_inst|altpll_component|auto_generated|pll1|clk[0] ; 1260401  ; 0        ; 0        ; 0        ;
+>>>>>>> 900f1eb (Update project files to include pong ball bounces against paddles and walls, hitting a vertical wall rests the ball to the neutral position.)
 +---------------------------------------------------------+---------------------------------------------------------+----------+----------+----------+----------+
 Entries labeled "false path" only account for clock-to-clock false paths and not path-based false paths. As a result, actual path counts may be lower than reported.
 
@@ -845,7 +931,11 @@ No non-DPA dedicated SERDES Receiver circuitry present in device or used in desi
 Info: *******************************************************************
 Info: Running Quartus Prime Timing Analyzer
     Info: Version 20.1.1 Build 720 11/11/2020 SJ Lite Edition
+<<<<<<< HEAD
     Info: Processing started: Wed Nov 18 14:23:38 2026
+=======
+    Info: Processing started: Fri Nov 20 15:43:49 2026
+>>>>>>> 900f1eb (Update project files to include pong ball bounces against paddles and walls, hitting a vertical wall rests the ball to the neutral position.)
 Info: Command: quartus_sta vga_core -c vga_core
 Info: qsta_default_script.tcl version: #1
 Warning (18236): Number of processors has not been specified which may cause overloading on shared machines.  Set the global assignment NUM_PARALLEL_PROCESSORS in your QSF to an appropriate value for best performance.
@@ -861,6 +951,7 @@ Info (332123): Deriving Clock Uncertainty. Please refer to report_sdc in the Tim
 Info: Found TIMING_ANALYZER_REPORT_SCRIPT_INCLUDE_DEFAULT_ANALYSIS = ON
 Info: Analyzing Slow 1200mV 85C Model
 Info: Can't run Report Timing Closure Recommendations. The current device family is not supported.
+<<<<<<< HEAD
 Info (332146): Worst-case setup slack is 23.943
     Info (332119):     Slack       End Point TNS Clock 
     Info (332119): ========= =================== =====================
@@ -869,6 +960,16 @@ Info (332146): Worst-case hold slack is 0.502
     Info (332119):     Slack       End Point TNS Clock 
     Info (332119): ========= =================== =====================
     Info (332119):     0.502               0.000 vgapll_inst|altpll_component|auto_generated|pll1|clk[0] 
+=======
+Info (332146): Worst-case setup slack is 24.430
+    Info (332119):     Slack       End Point TNS Clock 
+    Info (332119): ========= =================== =====================
+    Info (332119):    24.430               0.000 vgapll_inst|altpll_component|auto_generated|pll1|clk[0] 
+Info (332146): Worst-case hold slack is 0.424
+    Info (332119):     Slack       End Point TNS Clock 
+    Info (332119): ========= =================== =====================
+    Info (332119):     0.424               0.000 vgapll_inst|altpll_component|auto_generated|pll1|clk[0] 
+>>>>>>> 900f1eb (Update project files to include pong ball bounces against paddles and walls, hitting a vertical wall rests the ball to the neutral position.)
 Info (332140): No Recovery paths to report
 Info (332140): No Removal paths to report
 Info (332146): Worst-case minimum pulse width slack is 9.820
@@ -876,19 +977,28 @@ Info (332146): Worst-case minimum pulse width slack is 9.820
     Info (332119): ========= =================== =====================
     Info (332119):     9.820               0.000 MAX10_CLK1_50 
     Info (332119):    16.000               0.000 MAX10_CLK2_50 
+<<<<<<< HEAD
     Info (332119):    19.720               0.000 vgapll_inst|altpll_component|auto_generated|pll1|clk[0] 
+=======
+    Info (332119):    19.721               0.000 vgapll_inst|altpll_component|auto_generated|pll1|clk[0] 
+>>>>>>> 900f1eb (Update project files to include pong ball bounces against paddles and walls, hitting a vertical wall rests the ball to the neutral position.)
     Info (332119):    96.000               0.000 ADC_CLK_10 
 Info (332114): Report Metastability: Found 2 synchronizer chains.
     Info (332114): The design MTBF is not calculated because there are no specified synchronizers in the design.
     Info (332114): Number of Synchronizer Chains Found: 2
     Info (332114): Shortest Synchronizer Chain: 2 Registers
     Info (332114): Fraction of Chains for which MTBFs Could Not be Calculated: 1.000
+<<<<<<< HEAD
     Info (332114): Worst Case Available Settling Time: 39.243 ns
+=======
+    Info (332114): Worst Case Available Settling Time: 39.245 ns
+>>>>>>> 900f1eb (Update project files to include pong ball bounces against paddles and walls, hitting a vertical wall rests the ball to the neutral position.)
     Info (332114): 
 Info: Analyzing Slow 1200mV 0C Model
 Info (334003): Started post-fitting delay annotation
 Info (334004): Delay annotation completed successfully
 Info (332123): Deriving Clock Uncertainty. Please refer to report_sdc in the Timing Analyzer to see clock uncertainties.
+<<<<<<< HEAD
 Info (332146): Worst-case setup slack is 25.216
     Info (332119):     Slack       End Point TNS Clock 
     Info (332119): ========= =================== =====================
@@ -897,6 +1007,16 @@ Info (332146): Worst-case hold slack is 0.421
     Info (332119):     Slack       End Point TNS Clock 
     Info (332119): ========= =================== =====================
     Info (332119):     0.421               0.000 vgapll_inst|altpll_component|auto_generated|pll1|clk[0] 
+=======
+Info (332146): Worst-case setup slack is 25.769
+    Info (332119):     Slack       End Point TNS Clock 
+    Info (332119): ========= =================== =====================
+    Info (332119):    25.769               0.000 vgapll_inst|altpll_component|auto_generated|pll1|clk[0] 
+Info (332146): Worst-case hold slack is 0.342
+    Info (332119):     Slack       End Point TNS Clock 
+    Info (332119): ========= =================== =====================
+    Info (332119):     0.342               0.000 vgapll_inst|altpll_component|auto_generated|pll1|clk[0] 
+>>>>>>> 900f1eb (Update project files to include pong ball bounces against paddles and walls, hitting a vertical wall rests the ball to the neutral position.)
 Info (332140): No Recovery paths to report
 Info (332140): No Removal paths to report
 Info (332146): Worst-case minimum pulse width slack is 9.830
@@ -904,13 +1024,18 @@ Info (332146): Worst-case minimum pulse width slack is 9.830
     Info (332119): ========= =================== =====================
     Info (332119):     9.830               0.000 MAX10_CLK1_50 
     Info (332119):    16.000               0.000 MAX10_CLK2_50 
+<<<<<<< HEAD
     Info (332119):    19.709               0.000 vgapll_inst|altpll_component|auto_generated|pll1|clk[0] 
+=======
+    Info (332119):    19.710               0.000 vgapll_inst|altpll_component|auto_generated|pll1|clk[0] 
+>>>>>>> 900f1eb (Update project files to include pong ball bounces against paddles and walls, hitting a vertical wall rests the ball to the neutral position.)
     Info (332119):    96.000               0.000 ADC_CLK_10 
 Info (332114): Report Metastability: Found 2 synchronizer chains.
     Info (332114): The design MTBF is not calculated because there are no specified synchronizers in the design.
     Info (332114): Number of Synchronizer Chains Found: 2
     Info (332114): Shortest Synchronizer Chain: 2 Registers
     Info (332114): Fraction of Chains for which MTBFs Could Not be Calculated: 1.000
+<<<<<<< HEAD
     Info (332114): Worst Case Available Settling Time: 39.272 ns
     Info (332114): 
 Info: Analyzing Fast 1200mV 0C Model
@@ -923,6 +1048,20 @@ Info (332146): Worst-case hold slack is 0.218
     Info (332119):     Slack       End Point TNS Clock 
     Info (332119): ========= =================== =====================
     Info (332119):     0.218               0.000 vgapll_inst|altpll_component|auto_generated|pll1|clk[0] 
+=======
+    Info (332114): Worst Case Available Settling Time: 39.274 ns
+    Info (332114): 
+Info: Analyzing Fast 1200mV 0C Model
+Info (332123): Deriving Clock Uncertainty. Please refer to report_sdc in the Timing Analyzer to see clock uncertainties.
+Info (332146): Worst-case setup slack is 33.297
+    Info (332119):     Slack       End Point TNS Clock 
+    Info (332119): ========= =================== =====================
+    Info (332119):    33.297               0.000 vgapll_inst|altpll_component|auto_generated|pll1|clk[0] 
+Info (332146): Worst-case hold slack is 0.210
+    Info (332119):     Slack       End Point TNS Clock 
+    Info (332119): ========= =================== =====================
+    Info (332119):     0.210               0.000 vgapll_inst|altpll_component|auto_generated|pll1|clk[0] 
+>>>>>>> 900f1eb (Update project files to include pong ball bounces against paddles and walls, hitting a vertical wall rests the ball to the neutral position.)
 Info (332140): No Recovery paths to report
 Info (332140): No Removal paths to report
 Info (332146): Worst-case minimum pulse width slack is 9.530
@@ -937,14 +1076,24 @@ Info (332114): Report Metastability: Found 2 synchronizer chains.
     Info (332114): Number of Synchronizer Chains Found: 2
     Info (332114): Shortest Synchronizer Chain: 2 Registers
     Info (332114): Fraction of Chains for which MTBFs Could Not be Calculated: 1.000
+<<<<<<< HEAD
     Info (332114): Worst Case Available Settling Time: 39.693 ns
+=======
+    Info (332114): Worst Case Available Settling Time: 39.694 ns
+>>>>>>> 900f1eb (Update project files to include pong ball bounces against paddles and walls, hitting a vertical wall rests the ball to the neutral position.)
     Info (332114): 
 Info (332102): Design is not fully constrained for setup requirements
 Info (332102): Design is not fully constrained for hold requirements
 Info: Quartus Prime Timing Analyzer was successful. 0 errors, 2 warnings
+<<<<<<< HEAD
     Info: Peak virtual memory: 888 megabytes
     Info: Processing ended: Wed Nov 18 14:23:39 2026
     Info: Elapsed time: 00:00:01
+=======
+    Info: Peak virtual memory: 889 megabytes
+    Info: Processing ended: Fri Nov 20 15:43:51 2026
+    Info: Elapsed time: 00:00:02
+>>>>>>> 900f1eb (Update project files to include pong ball bounces against paddles and walls, hitting a vertical wall rests the ball to the neutral position.)
     Info: Total CPU time (on all processors): 00:00:01
 
 

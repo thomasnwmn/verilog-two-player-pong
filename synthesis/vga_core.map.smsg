@@ -1,0 +1,1 @@
+Warning (10268): Verilog HDL information at comb_ckt_generator.v(153): always construct contains both blocking and non-blocking assignments File: /eecs/home/maksd/verilog-two-player-pong-main/hdl/comb_ckt_generator.v Line: 153

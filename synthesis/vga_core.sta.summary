@@ -3,11 +3,19 @@ Timing Analyzer Summary
 ------------------------------------------------------------
 
 Type  : Slow 1200mV 85C Model Setup 'vgapll_inst|altpll_component|auto_generated|pll1|clk[0]'
+<<<<<<< HEAD
 Slack : 23.943
 TNS   : 0.000
 
 Type  : Slow 1200mV 85C Model Hold 'vgapll_inst|altpll_component|auto_generated|pll1|clk[0]'
 Slack : 0.502
+=======
+Slack : 24.430
+TNS   : 0.000
+
+Type  : Slow 1200mV 85C Model Hold 'vgapll_inst|altpll_component|auto_generated|pll1|clk[0]'
+Slack : 0.424
+>>>>>>> 900f1eb (Update project files to include pong ball bounces against paddles and walls, hitting a vertical wall rests the ball to the neutral position.)
 TNS   : 0.000
 
 Type  : Slow 1200mV 85C Model Minimum Pulse Width 'MAX10_CLK1_50'
@@ -19,7 +27,11 @@ Slack : 16.000
 TNS   : 0.000
 
 Type  : Slow 1200mV 85C Model Minimum Pulse Width 'vgapll_inst|altpll_component|auto_generated|pll1|clk[0]'
+<<<<<<< HEAD
 Slack : 19.720
+=======
+Slack : 19.721
+>>>>>>> 900f1eb (Update project files to include pong ball bounces against paddles and walls, hitting a vertical wall rests the ball to the neutral position.)
 TNS   : 0.000
 
 Type  : Slow 1200mV 85C Model Minimum Pulse Width 'ADC_CLK_10'
@@ -27,11 +39,19 @@ Slack : 96.000
 TNS   : 0.000
 
 Type  : Slow 1200mV 0C Model Setup 'vgapll_inst|altpll_component|auto_generated|pll1|clk[0]'
+<<<<<<< HEAD
 Slack : 25.216
 TNS   : 0.000
 
 Type  : Slow 1200mV 0C Model Hold 'vgapll_inst|altpll_component|auto_generated|pll1|clk[0]'
 Slack : 0.421
+=======
+Slack : 25.769
+TNS   : 0.000
+
+Type  : Slow 1200mV 0C Model Hold 'vgapll_inst|altpll_component|auto_generated|pll1|clk[0]'
+Slack : 0.342
+>>>>>>> 900f1eb (Update project files to include pong ball bounces against paddles and walls, hitting a vertical wall rests the ball to the neutral position.)
 TNS   : 0.000
 
 Type  : Slow 1200mV 0C Model Minimum Pulse Width 'MAX10_CLK1_50'
@@ -43,7 +63,11 @@ Slack : 16.000
 TNS   : 0.000
 
 Type  : Slow 1200mV 0C Model Minimum Pulse Width 'vgapll_inst|altpll_component|auto_generated|pll1|clk[0]'
+<<<<<<< HEAD
 Slack : 19.709
+=======
+Slack : 19.710
+>>>>>>> 900f1eb (Update project files to include pong ball bounces against paddles and walls, hitting a vertical wall rests the ball to the neutral position.)
 TNS   : 0.000
 
 Type  : Slow 1200mV 0C Model Minimum Pulse Width 'ADC_CLK_10'
@@ -51,11 +75,19 @@ Slack : 96.000
 TNS   : 0.000
 
 Type  : Fast 1200mV 0C Model Setup 'vgapll_inst|altpll_component|auto_generated|pll1|clk[0]'
+<<<<<<< HEAD
 Slack : 33.019
 TNS   : 0.000
 
 Type  : Fast 1200mV 0C Model Hold 'vgapll_inst|altpll_component|auto_generated|pll1|clk[0]'
 Slack : 0.218
+=======
+Slack : 33.297
+TNS   : 0.000
+
+Type  : Fast 1200mV 0C Model Hold 'vgapll_inst|altpll_component|auto_generated|pll1|clk[0]'
+Slack : 0.210
+>>>>>>> 900f1eb (Update project files to include pong ball bounces against paddles and walls, hitting a vertical wall rests the ball to the neutral position.)
 TNS   : 0.000
 
 Type  : Fast 1200mV 0C Model Minimum Pulse Width 'MAX10_CLK1_50'
