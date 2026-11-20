@@ -13,7 +13,9 @@ module comb_ckt_generator #(
 	parameter v_pixels = 480,
 	parameter paddle_height = 100,
 	parameter paddle_width = 10,
-	parameter ball_radius = 8
+	parameter ball_radius = 8,
+	parameter left_paddle_x = 50,
+	parameter right_paddle_x = h_pixels - 50 - paddle_width
 	)
 
 	(
@@ -108,20 +110,35 @@ assign end_of_frame = (row == 9'd479);
 assign frame_tick = last_end_of_frame && !end_of_frame;
 
 wire player1overlap;
-drawPaddle player1(.row(row),.col(col),.x(50),.y(player1y),.height(paddle_height),.width(paddle_width), .overlap(player1overlap));
+drawPaddle player1(.row(row),.col(col),.x(left_paddle_x),.y(player1y),.height(paddle_height),.width(paddle_width), .overlap(player1overlap));
 wire player2overlap;
-drawPaddle player2(.row(row),.col(col),.x(h_pixels - 50 - paddle_width),.y(player2y),.height(paddle_height),.width(paddle_width), .overlap(player2overlap));
+drawPaddle player2(.row(row),.col(col),.x(right_paddle_x),.y(player2y),.height(paddle_height),.width(paddle_width), .overlap(player2overlap));
 
 wire ballOverlap;
 drawBall ball(.row(row),.col(col),.x(ballPosition_x),.y(ballPosition_y),.radius(ball_radius), .overlap(ballOverlap));
 
-reg [3:0] ballVelocity_x, ballVelocity_y;
+reg [9:0] ballVelocity_x, ballVelocity_y;
 reg [9:0] ballPosition_x, ballPosition_y;
 
-	wire out_left = (ballPosition_x - ball_radius <= 0);
-	wire out_right = (ballPosition_x + ball_radius >= h_pixels);
-	wire out_top = (ballPosition_y - ball_radius <= 0);
-	wire out_bottom = (ballPosition_y + ball_radius >= v_pixels);
+wire out_left = (ballPosition_x <= ball_radius);
+wire out_right = (ballPosition_x + ball_radius >= h_pixels);
+wire out_top = (ballPosition_y <= ball_radius);
+wire out_bottom = (ballPosition_y + ball_radius >= v_pixels);
+
+wire moving_left = ballVelocity_x[9];
+wire moving_right = !ballVelocity_x[9];
+
+wire hit_left_paddle = moving_left && 
+(ballPosition_x >= left_paddle_x + ball_radius) && 
+(ballPosition_x <= left_paddle_x + ball_radius + paddle_width) && // ball <= left paddle
+(ballPosition_y + ball_radius >= player1y) && // ball >= left paddle top
+(ballPosition_y < player1y + paddle_height + ball_radius); // ball < left paddle bottom
+
+wire hit_right_paddle = moving_right && 
+(ballPosition_x + ball_radius >= right_paddle_x) && 
+(ballPosition_x + ball_radius <= right_paddle_x + paddle_width) && // ball <= right paddle
+(ballPosition_y + ball_radius >= player2y) && // ball >= right paddle top
+(ballPosition_y < player2y + paddle_height + ball_radius); // ball < right paddle bottom
 
 initial begin
 	
@@ -136,32 +153,42 @@ end
 always @(posedge frame_clk) begin
 	last_end_of_frame <= end_of_frame;
 	
-	// paddle movement
-	// Player 1
-	if (frame_tick && !player1e && !player1f && player1y + paddle_height + 4 <= v_pixels) // down
-		player1y <= player1y + 4;
-	else if (frame_tick && !player1e && player1f && player1y >= 4) // up
-		player1y <= player1y - 4;
-		
-	// player 2
-	if (frame_tick && !player2e && !player2f && player2y + paddle_height + 4 <= v_pixels) // down
-		player2y <= player2y + 4;
-	else if (frame_tick && !player2e && player2f && player2y >= 4) // up
-		player2y <= player2y - 4;
-		
-	// ball movement
-
-	if (frame_tick && !out_right && !out_left && !out_bottom && !out_top) begin
-		ballPosition_x <= ballPosition_x + ballVelocity_x; // general case
-		ballPosition_y <= ballPosition_y + ballVelocity_y;
-	end else if (frame_tick && out_right && !out_left && !out_bottom && !out_top | !out_right && out_left && !out_bottom && !out_top) begin
-		ballVelocity_x <= -ballVelocity_x; // case where the ball hits the vertical walls
-		ballPosition_x <= ballPosition_x + ballVelocity_x * 2;
-		ballPosition_y <= ballPosition_y + ballVelocity_y * 2;
-	end else if (frame_tick && !out_right && !out_left && out_bottom && !out_top | !out_right && !out_left && !out_bottom && !out_top) begin
-		ballVelocity_y <= -ballVelocity_y; // case where the ball hits the horizontal walls
-		ballPosition_x <= ballPosition_x + ballVelocity_x * 2;
-		ballPosition_y <= ballPosition_y + ballVelocity_y * 2;
+	if (frame_tick) begin
+		// paddle movement
+		// Player 1
+		if (!player1e && !player1f && player1y + paddle_height + 4 <= v_pixels) // down
+			player1y <= player1y + 4;
+		else if (!player1e && player1f && player1y >= 4) // up
+			player1y <= player1y - 4;
+			
+		// player 2
+		if (!player2e && !player2f && player2y + paddle_height + 4 <= v_pixels) // down
+			player2y <= player2y + 4;
+		else if (!player2e && player2f && player2y >= 4) // up
+			player2y <= player2y - 4;
+			
+		// ball movement
+		if (hit_left_paddle | hit_right_paddle) begin
+			ballVelocity_x = -ballVelocity_x; // Ball hits paddle
+			ballPosition_x = ballPosition_x + ballVelocity_x;
+			ballPosition_y = ballPosition_y + ballVelocity_y;
+		end else if (!out_right && !out_left && !out_bottom && !out_top) begin
+			ballPosition_x = ballPosition_x + ballVelocity_x; // general case
+			ballPosition_y = ballPosition_y + ballVelocity_y;
+			
+		end else if ((out_right && !out_left && !out_bottom && !out_top) | (!out_right && out_left && !out_bottom && !out_top)) begin
+			ballPosition_x = h_pixels / 2;
+			ballPosition_y = v_pixels / 2;
+		end else if ((!out_right && !out_left && out_bottom && !out_top) | (!out_right && !out_left && !out_bottom && out_top)) begin
+			ballVelocity_y = -ballVelocity_y; // case where the ball hits the horizontal walls
+			ballPosition_x = ballPosition_x + ballVelocity_x;
+			ballPosition_y = ballPosition_y + ballVelocity_y;
+		end else begin
+			ballVelocity_y = -ballVelocity_y; // case where the ball hits a corner
+			ballVelocity_x = -ballVelocity_x;
+			ballPosition_x = ballPosition_x + ballVelocity_x;
+			ballPosition_y = ballPosition_y + ballVelocity_y;
+		end		
 	end
 end
 
