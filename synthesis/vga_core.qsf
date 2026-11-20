@@ -223,20 +223,12 @@ set_global_assignment -name PARTITION_NETLIST_TYPE SOURCE -section_id Top
 set_global_assignment -name PARTITION_FITTER_PRESERVATION_LEVEL PLACEMENT_AND_ROUTING -section_id Top
 set_global_assignment -name PARTITION_COLOR 16764057 -section_id Top
 
-<<<<<<< HEAD
-=======
 set_global_assignment -name VERILOG_FILE ../hdl/drawPaddle.v
 set_global_assignment -name VERILOG_FILE ../hdl/drawBall.v
->>>>>>> 900f1eb (Update project files to include pong ball bounces against paddles and walls, hitting a vertical wall rests the ball to the neutral position.)
 set_global_assignment -name SDC_FILE vga_core.sdc
 set_global_assignment -name VERILOG_FILE ../hdl/comb_ckt_generator.v
 set_global_assignment -name VERILOG_FILE ../hdl/vga_controller.v
 set_global_assignment -name VERILOG_FILE ../hdl/top.v
 set_global_assignment -name SDC_FILE vga_core.SDC
 set_global_assignment -name QIP_FILE ../ip/pll.qip
-<<<<<<< HEAD
-set_global_assignment -name VERILOG_FILE "/eecs/home/newman06/Github/verilog-two-player-pong/hdl/drawPaddle.v"
-set_global_assignment -name VERILOG_FILE "/eecs/home/newman06/Github/verilog-two-player-pong/hdl/drawBall.v"
-=======
->>>>>>> 900f1eb (Update project files to include pong ball bounces against paddles and walls, hitting a vertical wall rests the ball to the neutral position.)
 set_instance_assignment -name PARTITION_HIERARCHY root_partition -to | -section_id Top
