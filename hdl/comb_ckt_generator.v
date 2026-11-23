@@ -81,20 +81,18 @@ assign LEDR = SW;      // ten LEDs assigned to ten switches
 // This block sets the 7-segment HEX displays
 // HEX4 - HEX0 are set to all dark
 // HEX5 lights segments based on SW9 - SW2
-assign HEX0 = 8'b1111_1111;
 assign HEX1 = 8'b1111_1111;
 assign HEX2 = 8'b1111_1111;
 assign HEX3 = 8'b1111_1111;
 assign HEX4 = 8'b1111_1111;
-assign HEX5 = 8'b1111_1111;
 
 
 //==============================================================
 // VGA display related circuits
 //==============================================================
-reg [8:0] player1y;
+reg [8:0] player1y = (v_pixels / 2) - (paddle_height / 2);
 wire player1e, player1f;
-reg [8:0] player2y;
+reg [8:0] player2y = (v_pixels / 2) - (paddle_height / 2);
 wire player2e, player2f;
 
 assign player1f = SW[9];
@@ -140,6 +138,17 @@ wire hit_right_paddle = moving_right &&
 (ballPosition_y + ball_radius >= player2y) && // ball >= right paddle top
 (ballPosition_y < player2y + paddle_height + ball_radius); // ball < right paddle bottom
 
+wire pause_pressed;
+assign pause_pressed = !KEY[0];
+reg paused = 1;
+
+// Score
+reg [3:0] player1_score = 0;
+reg [3:0] player2_score = 0;
+
+seven_seg p1_score_display(.digit(player1_score),.segments(HEX5));
+seven_seg p2_score_display(.digit(player2_score),.segments(HEX0));
+
 initial begin
 	
 	ballPosition_x <= 320;
@@ -153,42 +162,72 @@ end
 always @(posedge frame_clk) begin
 	last_end_of_frame <= end_of_frame;
 	
+	if (pause_pressed) begin
+		paused = 0;
+	end
 	if (frame_tick) begin
-		// paddle movement
-		// Player 1
-		if (!player1e && !player1f && player1y + paddle_height + 4 <= v_pixels) // down
-			player1y <= player1y + 4;
-		else if (!player1e && player1f && player1y >= 4) // up
-			player1y <= player1y - 4;
-			
-		// player 2
-		if (!player2e && !player2f && player2y + paddle_height + 4 <= v_pixels) // down
-			player2y <= player2y + 4;
-		else if (!player2e && player2f && player2y >= 4) // up
-			player2y <= player2y - 4;
-			
-		// ball movement
-		if (hit_left_paddle | hit_right_paddle) begin
-			ballVelocity_x = -ballVelocity_x; // Ball hits paddle
-			ballPosition_x = ballPosition_x + ballVelocity_x;
-			ballPosition_y = ballPosition_y + ballVelocity_y;
-		end else if (!out_right && !out_left && !out_bottom && !out_top) begin
-			ballPosition_x = ballPosition_x + ballVelocity_x; // general case
-			ballPosition_y = ballPosition_y + ballVelocity_y;
-			
-		end else if ((out_right && !out_left && !out_bottom && !out_top) | (!out_right && out_left && !out_bottom && !out_top)) begin
-			ballPosition_x = h_pixels / 2;
-			ballPosition_y = v_pixels / 2;
-		end else if ((!out_right && !out_left && out_bottom && !out_top) | (!out_right && !out_left && !out_bottom && out_top)) begin
-			ballVelocity_y = -ballVelocity_y; // case where the ball hits the horizontal walls
-			ballPosition_x = ballPosition_x + ballVelocity_x;
-			ballPosition_y = ballPosition_y + ballVelocity_y;
-		end else begin
-			ballVelocity_y = -ballVelocity_y; // case where the ball hits a corner
-			ballVelocity_x = -ballVelocity_x;
-			ballPosition_x = ballPosition_x + ballVelocity_x;
-			ballPosition_y = ballPosition_y + ballVelocity_y;
-		end		
+		if (!paused) begin
+			// paddle movement
+			// Player 1
+			if (!player1e && !player1f && player1y + paddle_height + 4 <= v_pixels) // down
+				player1y <= player1y + 4;
+			else if (!player1e && player1f && player1y >= 4) // up
+				player1y <= player1y - 4;
+				
+			// player 2
+			if (!player2e && !player2f && player2y + paddle_height + 4 <= v_pixels) // down
+				player2y <= player2y + 4;
+			else if (!player2e && player2f && player2y >= 4) // up
+				player2y <= player2y - 4;
+				
+			// ball movement
+			if (hit_left_paddle | hit_right_paddle) begin
+				ballVelocity_x = -ballVelocity_x; // Ball hits paddle
+				ballPosition_x = ballPosition_x + ballVelocity_x;
+				ballPosition_y = ballPosition_y + ballVelocity_y;
+				if (hit_left_paddle) begin
+					ballVelocity_x = ballVelocity_x + 1;
+					ballVelocity_y = ballVelocity_y + 1;
+				end else if (hit_right_paddle) begin
+					ballVelocity_y = ballVelocity_y - 1;
+					ballVelocity_x = ballVelocity_x - 1;
+				end
+			end else if (!out_right && !out_left && !out_bottom && !out_top) begin
+				ballPosition_x = ballPosition_x + ballVelocity_x; // general case
+				ballPosition_y = ballPosition_y + ballVelocity_y;
+				
+			end else if ((out_right && !out_left && !out_bottom && !out_top) | (!out_right && out_left && !out_bottom && !out_top)) begin
+				ballPosition_x = h_pixels / 2; //Game paused
+				ballPosition_y = v_pixels / 2;
+				player1y <= (v_pixels / 2) - (paddle_height / 2);
+				player2y <= (v_pixels / 2) - (paddle_height / 2);
+				
+				paused = 1;
+				
+				if (out_right && !out_left && !out_bottom && !out_top) begin
+					player1_score <= player1_score + 1;
+				end else begin
+					player2_score <= player2_score + 1;
+				end
+				
+				//if (player1_score == 7 | player2_score == 7) begin
+					
+				//end
+				
+				ballVelocity_x = 2;
+				ballVelocity_y = 2;
+				
+			end else if ((!out_right && !out_left && out_bottom && !out_top) | (!out_right && !out_left && !out_bottom && out_top)) begin
+				ballVelocity_y = -ballVelocity_y; // case where the ball hits the horizontal walls
+				ballPosition_x = ballPosition_x + ballVelocity_x;
+				ballPosition_y = ballPosition_y + ballVelocity_y;
+			end else begin
+				ballVelocity_y = -ballVelocity_y; // case where the ball hits a corner
+				ballVelocity_x = -ballVelocity_x;
+				ballPosition_x = ballPosition_x + ballVelocity_x;
+				ballPosition_y = ballPosition_y + ballVelocity_y;
+			end		
+		end
 	end
 end
 

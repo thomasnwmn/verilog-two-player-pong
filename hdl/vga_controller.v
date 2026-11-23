@@ -32,15 +32,15 @@ module vga_controller #(
 
    always @(posedge pixel_clk) begin
       // Perform reset operations if needed
-      if (reset_n == 1'b0) begin
-         h_count  <= 0;
-         v_count  <= 0;
-         h_sync   <= ~ h_pol;
-         v_sync   <= ~ v_pol;
-         disp_ena <= 1'b0;
-         column   <= 0;
-         row      <= 0;
-      end else begin
+      //if (reset_n == 1'b0) begin
+      //   h_count  <= 0;
+      //   v_count  <= 0;
+      //   h_sync   <= ~ h_pol;
+      //   v_sync   <= ~ v_pol;
+      //   disp_ena <= 1'b0;
+      //   column   <= 0;
+      //   row      <= 0;
+      //end else begin
 
          // Pixel Counters
          if (h_count < h_period - 1) begin
@@ -83,7 +83,7 @@ module vga_controller #(
          end else begin
             disp_ena <= 1'b0;
          end
-      end
+      //end
    end
 
 endmodule
