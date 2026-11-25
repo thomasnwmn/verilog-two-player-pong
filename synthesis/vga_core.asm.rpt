@@ -1,5 +1,5 @@
 Assembler report for vga_core
-Mon Nov 23 14:15:16 2026
+Wed Nov 25 14:16:07 2026
 Quartus Prime Version 20.1.1 Build 720 11/11/2020 SJ Lite Edition
 
 
@@ -38,7 +38,7 @@ https://fpgasoftware.intel.com/eula.
 +---------------------------------------------------------------+
 ; Assembler Summary                                             ;
 +-----------------------+---------------------------------------+
-; Assembler Status      ; Successful - Mon Nov 23 14:15:16 2026 ;
+; Assembler Status      ; Successful - Wed Nov 25 14:16:07 2026 ;
 ; Revision Name         ; vga_core                              ;
 ; Top-level Entity Name ; top                                   ;
 ; Family                ; MAX 10                                ;
@@ -53,13 +53,13 @@ https://fpgasoftware.intel.com/eula.
 +--------+---------+---------------+
 
 
-+----------------------------------------------------------------------+
-; Assembler Generated Files                                            ;
-+----------------------------------------------------------------------+
-; File Name                                                            ;
-+----------------------------------------------------------------------+
-; /eecs/home/maksd/verilog-two-player-pong-main/synthesis/vga_core.sof ;
-+----------------------------------------------------------------------+
++---------------------------------------------------------------------------+
+; Assembler Generated Files                                                 ;
++---------------------------------------------------------------------------+
+; File Name                                                                 ;
++---------------------------------------------------------------------------+
+; /eecs/home/newman06/Github/verilog-two-player-pong/synthesis/vga_core.sof ;
++---------------------------------------------------------------------------+
 
 
 +----------------------------------------+
@@ -67,8 +67,8 @@ https://fpgasoftware.intel.com/eula.
 +----------------+-----------------------+
 ; Option         ; Setting               ;
 +----------------+-----------------------+
-; JTAG usercode  ; 0x002B6AE6            ;
-; Checksum       ; 0x002B6AE6            ;
+; JTAG usercode  ; 0x002C42AE            ;
+; Checksum       ; 0x002C42AE            ;
 +----------------+-----------------------+
 
 
@@ -78,14 +78,14 @@ https://fpgasoftware.intel.com/eula.
 Info: *******************************************************************
 Info: Running Quartus Prime Assembler
     Info: Version 20.1.1 Build 720 11/11/2020 SJ Lite Edition
-    Info: Processing started: Mon Nov 23 14:15:15 2026
+    Info: Processing started: Wed Nov 25 14:16:06 2026
 Info: Command: quartus_asm --read_settings_files=off --write_settings_files=off vga_core -c vga_core
 Warning (18236): Number of processors has not been specified which may cause overloading on shared machines.  Set the global assignment NUM_PARALLEL_PROCESSORS in your QSF to an appropriate value for best performance.
 Info (115031): Writing out detailed assembly data for power analysis
 Info (115030): Assembler is generating device programming files
 Info: Quartus Prime Assembler was successful. 0 errors, 1 warning
-    Info: Peak virtual memory: 580 megabytes
-    Info: Processing ended: Mon Nov 23 14:15:16 2026
+    Info: Peak virtual memory: 574 megabytes
+    Info: Processing ended: Wed Nov 25 14:16:07 2026
     Info: Elapsed time: 00:00:01
     Info: Total CPU time (on all processors): 00:00:01
 

@@ -4,7 +4,7 @@ JedecChain;
 	DefaultMfr(6E);
 
 	P ActionCode(Cfg)
-		Device PartName(10M50DAF484) Path("/eecs/home/maksd/verilog-two-player-pong-main/synthesis/") File("vga_core.sof") MfrSpec(OpMask(1));
+		Device PartName(10M50DAF484) Path("/cs/home/newman06/Github/verilog-two-player-pong/synthesis/") File("vga_core.sof") MfrSpec(OpMask(1));
 
 ChainEnd;
 

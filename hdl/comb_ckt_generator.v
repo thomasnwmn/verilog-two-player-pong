@@ -11,7 +11,7 @@
 module comb_ckt_generator #(
 	parameter h_pixels = 640,
 	parameter v_pixels = 480,
-	parameter paddle_height = 100,
+	parameter paddle_height_base = 70,
 	parameter paddle_width = 10,
 	parameter ball_radius = 8,
 	parameter left_paddle_x = 50,
@@ -90,9 +90,12 @@ assign HEX4 = 8'b1111_1111;
 //==============================================================
 // VGA display related circuits
 //==============================================================
-reg [8:0] player1y = (v_pixels / 2) - (paddle_height / 2);
+reg [1:0] difficulty = 0;
+wire [9:0] paddle_height = paddle_height_base + (difficulty * 30);
+
+reg [8:0] player1y = (v_pixels / 2) - (paddle_height_base / 2);
 wire player1e, player1f;
-reg [8:0] player2y = (v_pixels / 2) - (paddle_height / 2);
+reg [8:0] player2y = (v_pixels / 2) - (paddle_height_base / 2);
 wire player2e, player2f;
 
 assign player1f = SW[9];
@@ -106,6 +109,8 @@ wire frame_tick;
 
 assign end_of_frame = (row == 9'd479);
 assign frame_tick = last_end_of_frame && !end_of_frame;
+
+
 
 wire player1overlap;
 drawPaddle player1(.row(row),.col(col),.x(left_paddle_x),.y(player1y),.height(paddle_height),.width(paddle_width), .overlap(player1overlap));
@@ -138,9 +143,23 @@ wire hit_right_paddle = moving_right &&
 (ballPosition_y + ball_radius >= player2y) && // ball >= right paddle top
 (ballPosition_y < player2y + paddle_height + ball_radius); // ball < right paddle bottom
 
+wire [8:0] hit_paddle_y = hit_left_paddle ? player1y : player2y;
+reg player_scored;
+
+wire [9:0] hit_pos = ballPosition_y + ball_radius - hit_paddle_y;
+
+wire [9:0] hit_span = paddle_height + 2 * ball_radius;
+wire [9:0] seg = hit_span >> 3;
+
+wire [9:0] new_vy = (hit_pos < seg) ? -10'd5 : (hit_pos < 2 * seg) ? -10'd3 : (hit_pos < 4 * seg) ? -10'd1 : (hit_pos < 6 * seg) ? 10'd1 : (hit_pos < 7 * seg) ? 10'd3 : 10'd5;
+
 wire pause_pressed;
 assign pause_pressed = !KEY[0];
 reg paused = 1;
+
+wire difficulty_pressed;
+assign difficulty_pressed = !KEY[1];
+reg last_difficulty_pressed = 0;
 
 // Score
 reg [3:0] player1_score = 0;
@@ -154,8 +173,8 @@ initial begin
 	ballPosition_x <= 320;
 	ballPosition_y <= 240;
 	
-	ballVelocity_x <= 2;
-	ballVelocity_y <= 2;
+	ballVelocity_x <= -2;
+	ballVelocity_y <= 0;
 
 end
 
@@ -187,9 +206,9 @@ always @(posedge frame_clk) begin
 				ballPosition_y = ballPosition_y + ballVelocity_y;
 				if (hit_left_paddle) begin
 					ballVelocity_x = ballVelocity_x + 1;
-					ballVelocity_y = ballVelocity_y + 1;
+					ballVelocity_y = new_vy;
 				end else if (hit_right_paddle) begin
-					ballVelocity_y = ballVelocity_y - 1;
+					ballVelocity_y = new_vy;
 					ballVelocity_x = ballVelocity_x - 1;
 				end
 			end else if (!out_right && !out_left && !out_bottom && !out_top) begin
@@ -206,16 +225,18 @@ always @(posedge frame_clk) begin
 				
 				if (out_right && !out_left && !out_bottom && !out_top) begin
 					player1_score <= player1_score + 1;
+					player_scored = 0;
 				end else begin
 					player2_score <= player2_score + 1;
+					player_scored = 1;
 				end
 				
 				//if (player1_score == 7 | player2_score == 7) begin
 					
 				//end
 				
-				ballVelocity_x = 2;
-				ballVelocity_y = 2;
+				ballVelocity_x = player_scored ? -2 : 2;
+				ballVelocity_y = 0;
 				
 			end else if ((!out_right && !out_left && out_bottom && !out_top) | (!out_right && !out_left && !out_bottom && out_top)) begin
 				ballVelocity_y = -ballVelocity_y; // case where the ball hits the horizontal walls
@@ -226,7 +247,17 @@ always @(posedge frame_clk) begin
 				ballVelocity_x = -ballVelocity_x;
 				ballPosition_x = ballPosition_x + ballVelocity_x;
 				ballPosition_y = ballPosition_y + ballVelocity_y;
-			end		
+			end
+		end else begin
+		last_difficulty_pressed <= difficulty_pressed;
+		
+		player1y = (v_pixels / 2) - (paddle_height / 2);
+		player2y = (v_pixels / 2) - (paddle_height / 2);
+			if (difficulty_pressed) begin
+				if (difficulty_pressed && !last_difficulty_pressed) begin
+					difficulty <= (difficulty + 1) % 3;
+				end
+			end
 		end
 	end
 end
