@@ -15,7 +15,9 @@ module comb_ckt_generator #(
 	parameter paddle_width = 10,
 	parameter ball_radius = 8,
 	parameter left_paddle_x = 50,
-	parameter right_paddle_x = h_pixels - 50 - paddle_width
+	parameter right_paddle_x = h_pixels - 50 - paddle_width,
+	parameter win_score = 5,
+	parameter text_blink = 1
 	)
 
 	(
@@ -38,232 +40,272 @@ module comb_ckt_generator #(
    HEX5,
 	// clock
 	frame_clk
-   );
+);
 
-input  [9:0]  col;
-input  [8:0]  row;
-output [3:0]  red;    // 4-bit color output
-output [3:0]  green;  // 4-bit color output
-output [3:0]  blue;   // 4-bit color output
+	input  [9:0]  col;
+	input  [8:0]  row;
+	output [3:0]  red;    // 4-bit color output
+	output [3:0]  green;  // 4-bit color output
+	output [3:0]  blue;   // 4-bit color output
 
-// input push buttons and switches
-input  [1:0]  KEY;    // two board-level push buttons KEY1 - KEY0
-input  [9:0]  SW;     // ten board-level switches SW9 - SW0
+	// input push buttons and switches
+	input  [1:0]  KEY;    // two board-level push buttons KEY1 - KEY0
+	input  [9:0]  SW;     // ten board-level switches SW9 - SW0
 
-// output LEDs and 7-segment displays
-output [9:0]  LEDR;   // ten board-level LEDs LEDR9 - LEDR0
-output [7:0]  HEX0;   // board-level 7-segment display
-output [7:0]  HEX1;   // board-level 7-segment display
-output [7:0]  HEX2;   // board-level 7-segment display
-output [7:0]  HEX3;   // board-level 7-segment display
-output [7:0]  HEX4;   // board-level 7-segment display
-output [7:0]  HEX5;   // board-level 7-segment display
+	// output LEDs and 7-segment displays
+	output [9:0]  LEDR;   // ten board-level LEDs LEDR9 - LEDR0
+	output [7:0]  HEX0;   // board-level 7-segment display
+	output [7:0]  HEX1;   // board-level 7-segment display
+	output [7:0]  HEX2;   // board-level 7-segment display
+	output [7:0]  HEX3;   // board-level 7-segment display
+	output [7:0]  HEX4;   // board-level 7-segment display
+	output [7:0]  HEX5;   // board-level 7-segment display
 
-// clock
-input frame_clk;
+	// clock
+	input frame_clk;
 
-//============================================================================
-//  reg/wire declarations
-//============================================================================
-// More complex implementations will likely declare RGB outputs as regs
-// rather than wires
-wire [3:0]    red, green, blue;    
+	//============================================================================
+	//  reg/wire declarations
+	//============================================================================
+	// More complex implementations will likely declare RGB outputs as regs
+	// rather than wires
+	wire [3:0]    red, green, blue;    
 
-//============================================================================
-// Board-LED related circuits
-//============================================================================
+	//============================================================================
+	// Board-LED related circuits
+	//============================================================================
 
-// Temporary simple logic
-// The 10 LEDs will light depending on the position of the adjacent 10 switches
-assign LEDR = SW;      // ten LEDs assigned to ten switches
+	// Temporary simple logic
+	// The 10 LEDs will light depending on the position of the adjacent 10 switches
+	assign LEDR = SW;      // ten LEDs assigned to ten switches
 
-// Temporary simple logic
-// This block sets the 7-segment HEX displays
-// HEX4 - HEX0 are set to all dark
-// HEX5 lights segments based on SW9 - SW2
-assign HEX1 = 8'b1111_1111;
-assign HEX2 = 8'b1111_1111;
-assign HEX3 = 8'b1111_1111;
-assign HEX4 = 8'b1111_1111;
+	// Temporary simple logic
+	// This block sets the 7-segment HEX displays
+	// HEX4 - HEX0 are set to all dark
+	// HEX5 lights segments based on SW9 - SW2
+	assign HEX1 = 8'b1111_1111;
+	assign HEX2 = 8'b1111_1111;
+	assign HEX3 = 8'b1111_1111;
+	assign HEX4 = 8'b1111_1111;
 
+	//==============================================================
+	// VGA display related circuits
+	//==============================================================
+	reg [1:0] difficulty = 0;
+	wire [9:0] paddle_height = paddle_height_base + (difficulty * 30);
 
-//==============================================================
-// VGA display related circuits
-//==============================================================
-reg [1:0] difficulty = 0;
-wire [9:0] paddle_height = paddle_height_base + (difficulty * 30);
+	reg [8:0] player1y = (v_pixels / 2) - (paddle_height_base / 2);
+	wire player1e, player1f;
+	reg [8:0] player2y = (v_pixels / 2) - (paddle_height_base / 2);
+	wire player2e, player2f;
 
-reg [8:0] player1y = (v_pixels / 2) - (paddle_height_base / 2);
-wire player1e, player1f;
-reg [8:0] player2y = (v_pixels / 2) - (paddle_height_base / 2);
-wire player2e, player2f;
+	// player controls
+	assign player1f = SW[9];
+	assign player1e = SW[8];
+	assign player2f = SW[0];
+	assign player2e = SW[1];
 
-assign player1f = SW[9];
-assign player1e = SW[8];
-assign player2f = SW[0];
-assign player2e = SW[1];
+	wire end_of_frame;
+	reg last_end_of_frame;
+	wire frame_tick;
 
-wire end_of_frame;
-reg last_end_of_frame;
-wire frame_tick;
+	assign end_of_frame = (row == 9'd479);
+	assign frame_tick = last_end_of_frame && !end_of_frame;
 
-assign end_of_frame = (row == 9'd479);
-assign frame_tick = last_end_of_frame && !end_of_frame;
+	// drawing paddles to screen
+	wire player1overlap;
+	drawPaddle player1(.row(row),.col(col),.x(left_paddle_x),.y(player1y),.height(paddle_height),.width(paddle_width), .overlap(player1overlap));
+	wire player2overlap;
+	drawPaddle player2(.row(row),.col(col),.x(right_paddle_x),.y(player2y),.height(paddle_height),.width(paddle_width), .overlap(player2overlap));
 
+	// drawing ball to screen
+	wire ballOverlap;
+	drawBall ball(.row(row),.col(col),.x(ballPosition_x),.y(ballPosition_y),.radius(ball_radius), .overlap(ballOverlap));
 
+	reg [9:0] ballVelocity_x, ballVelocity_y;
+	reg [9:0] ballPosition_x, ballPosition_y;
 
-wire player1overlap;
-drawPaddle player1(.row(row),.col(col),.x(left_paddle_x),.y(player1y),.height(paddle_height),.width(paddle_width), .overlap(player1overlap));
-wire player2overlap;
-drawPaddle player2(.row(row),.col(col),.x(right_paddle_x),.y(player2y),.height(paddle_height),.width(paddle_width), .overlap(player2overlap));
+	// defining cases where ball leaves the screen
+	wire out_left = (ballPosition_x <= ball_radius);
+	wire out_right = (ballPosition_x + ball_radius >= h_pixels);
+	wire out_top = (ballPosition_y <= ball_radius);
+	wire out_bottom = (ballPosition_y + ball_radius >= v_pixels);
 
-wire ballOverlap;
-drawBall ball(.row(row),.col(col),.x(ballPosition_x),.y(ballPosition_y),.radius(ball_radius), .overlap(ballOverlap));
+	// defining cases for which direction the ball is moving
+	wire moving_left = ballVelocity_x[9];
+	wire moving_right = !ballVelocity_x[9];
 
-reg [9:0] ballVelocity_x, ballVelocity_y;
-reg [9:0] ballPosition_x, ballPosition_y;
+	// did the ball hit the left paddle?
+	wire hit_left_paddle = moving_left && 
+	(ballPosition_x >= left_paddle_x + ball_radius) && 
+	(ballPosition_x <= left_paddle_x + ball_radius + paddle_width) && // ball <= left paddle
+	(ballPosition_y + ball_radius >= player1y) && // ball >= left paddle top
+	(ballPosition_y < player1y + paddle_height + ball_radius); // ball < left paddle bottom
 
-wire out_left = (ballPosition_x <= ball_radius);
-wire out_right = (ballPosition_x + ball_radius >= h_pixels);
-wire out_top = (ballPosition_y <= ball_radius);
-wire out_bottom = (ballPosition_y + ball_radius >= v_pixels);
+	// did the ball hit the right paddle?
+	wire hit_right_paddle = moving_right && 
+	(ballPosition_x + ball_radius >= right_paddle_x) && 
+	(ballPosition_x + ball_radius <= right_paddle_x + paddle_width) && // ball <= right paddle
+	(ballPosition_y + ball_radius >= player2y) && // ball >= right paddle top
+	(ballPosition_y < player2y + paddle_height + ball_radius); // ball < right paddle bottom
 
-wire moving_left = ballVelocity_x[9];
-wire moving_right = !ballVelocity_x[9];
+	wire [8:0] hit_paddle_y = hit_left_paddle ? player1y : player2y;
+	reg player_scored;
 
-wire hit_left_paddle = moving_left && 
-(ballPosition_x >= left_paddle_x + ball_radius) && 
-(ballPosition_x <= left_paddle_x + ball_radius + paddle_width) && // ball <= left paddle
-(ballPosition_y + ball_radius >= player1y) && // ball >= left paddle top
-(ballPosition_y < player1y + paddle_height + ball_radius); // ball < left paddle bottom
+	// where did the ball hit the paddle
+	wire [9:0] hit_pos = ballPosition_y + ball_radius - hit_paddle_y;
 
-wire hit_right_paddle = moving_right && 
-(ballPosition_x + ball_radius >= right_paddle_x) && 
-(ballPosition_x + ball_radius <= right_paddle_x + paddle_width) && // ball <= right paddle
-(ballPosition_y + ball_radius >= player2y) && // ball >= right paddle top
-(ballPosition_y < player2y + paddle_height + ball_radius); // ball < right paddle bottom
+	// dividing the paddle into 8 segments
+	wire [9:0] hit_span = paddle_height + 2 * ball_radius;
+	wire [9:0] seg = hit_span >> 3;
 
-wire [8:0] hit_paddle_y = hit_left_paddle ? player1y : player2y;
-reg player_scored;
+	// calculating how quickly the ball should be moving based on which segment of the paddle it hit
+	wire [9:0] new_vy = (hit_pos < seg) ? -10'd5 : (hit_pos < 2 * seg) ? -10'd3 : (hit_pos < 4 * seg) ? -10'd1 : (hit_pos < 6 * seg) ? 10'd1 : (hit_pos < 7 * seg) ? 10'd3 : 10'd5;
 
-wire [9:0] hit_pos = ballPosition_y + ball_radius - hit_paddle_y;
+	// wiring up the pause button
+	wire pause_pressed;
+	assign pause_pressed = !KEY[0];
+	reg paused = 1;
 
-wire [9:0] hit_span = paddle_height + 2 * ball_radius;
-wire [9:0] seg = hit_span >> 3;
+	// wiring up the difficulty button
+	wire difficulty_pressed;
+	assign difficulty_pressed = !KEY[1];
+	reg last_difficulty_pressed = 0;
 
-wire [9:0] new_vy = (hit_pos < seg) ? -10'd5 : (hit_pos < 2 * seg) ? -10'd3 : (hit_pos < 4 * seg) ? -10'd1 : (hit_pos < 6 * seg) ? 10'd1 : (hit_pos < 7 * seg) ? 10'd3 : 10'd5;
+	// drawing text to the screen
+	reg [5:0] blink_counter = 0;
 
-wire pause_pressed;
-assign pause_pressed = !KEY[0];
-reg paused = 1;
+	wire[1:0] text_msg = !game_over ? 2'd0 : (player1_score == win_score) ? 2'd1 : 2'd2;
+	wire[9:0] text_x = game_over ? 10'd208 : 10'd194;
 
-wire difficulty_pressed;
-assign difficulty_pressed = !KEY[1];
-reg last_difficulty_pressed = 0;
+	wire text_pixel;
+	drawText #(.SCALE_SHIFT(2)) status_text(
+		.col(col), .row(row),
+		.x(text_x),
+		.y(9'd100),
+		.msg(text_msg),
+		.on(text_pixel)
+	);
 
-// Score
-reg [3:0] player1_score = 0;
-reg [3:0] player2_score = 0;
+	wire text_visible = paused && text_pixel && (!text_blink | blink_counter[5]);
 
-seven_seg p1_score_display(.digit(player1_score),.segments(HEX5));
-seven_seg p2_score_display(.digit(player2_score),.segments(HEX0));
+	// Score
+	reg [3:0] player1_score = 0;
+	reg [3:0] player2_score = 0;
 
-initial begin
-	
-	ballPosition_x <= 320;
-	ballPosition_y <= 240;
-	
-	ballVelocity_x <= -2;
-	ballVelocity_y <= 0;
+	// wiring up the seven segment displays
+	seven_seg p1_score_display(.digit(player1_score),.segments(HEX5));
+	seven_seg p2_score_display(.digit(player2_score),.segments(HEX0));
 
-end
+	reg game_over = 0;
 
-always @(posedge frame_clk) begin
-	last_end_of_frame <= end_of_frame;
-	
-	if (pause_pressed) begin
-		paused = 0;
-	end
-	if (frame_tick) begin
-		if (!paused) begin
-			// paddle movement
-			// Player 1
-			if (!player1e && !player1f && player1y + paddle_height + 4 <= v_pixels) // down
-				player1y <= player1y + 4;
-			else if (!player1e && player1f && player1y >= 4) // up
-				player1y <= player1y - 4;
-				
-			// player 2
-			if (!player2e && !player2f && player2y + paddle_height + 4 <= v_pixels) // down
-				player2y <= player2y + 4;
-			else if (!player2e && player2f && player2y >= 4) // up
-				player2y <= player2y - 4;
-				
-			// ball movement
-			if (hit_left_paddle | hit_right_paddle) begin
-				ballVelocity_x = -ballVelocity_x; // Ball hits paddle
-				ballPosition_x = ballPosition_x + ballVelocity_x;
-				ballPosition_y = ballPosition_y + ballVelocity_y;
-				if (hit_left_paddle) begin
-					ballVelocity_x = ballVelocity_x + 1;
-					ballVelocity_y = new_vy;
-				end else if (hit_right_paddle) begin
-					ballVelocity_y = new_vy;
-					ballVelocity_x = ballVelocity_x - 1;
-				end
-			end else if (!out_right && !out_left && !out_bottom && !out_top) begin
-				ballPosition_x = ballPosition_x + ballVelocity_x; // general case
-				ballPosition_y = ballPosition_y + ballVelocity_y;
-				
-			end else if ((out_right && !out_left && !out_bottom && !out_top) | (!out_right && out_left && !out_bottom && !out_top)) begin
-				ballPosition_x = h_pixels / 2; //Game paused
-				ballPosition_y = v_pixels / 2;
-				player1y <= (v_pixels / 2) - (paddle_height / 2);
-				player2y <= (v_pixels / 2) - (paddle_height / 2);
-				
-				paused = 1;
-				
-				if (out_right && !out_left && !out_bottom && !out_top) begin
-					player1_score <= player1_score + 1;
-					player_scored = 0;
-				end else begin
-					player2_score <= player2_score + 1;
-					player_scored = 1;
-				end
-				
-				//if (player1_score == 7 | player2_score == 7) begin
-					
-				//end
-				
-				ballVelocity_x = player_scored ? -2 : 2;
-				ballVelocity_y = 0;
-				
-			end else if ((!out_right && !out_left && out_bottom && !out_top) | (!out_right && !out_left && !out_bottom && out_top)) begin
-				ballVelocity_y = -ballVelocity_y; // case where the ball hits the horizontal walls
-				ballPosition_x = ballPosition_x + ballVelocity_x;
-				ballPosition_y = ballPosition_y + ballVelocity_y;
-			end else begin
-				ballVelocity_y = -ballVelocity_y; // case where the ball hits a corner
-				ballVelocity_x = -ballVelocity_x;
-				ballPosition_x = ballPosition_x + ballVelocity_x;
-				ballPosition_y = ballPosition_y + ballVelocity_y;
-			end
-		end else begin
-		last_difficulty_pressed <= difficulty_pressed;
+	initial begin
+		// defining initial positions
+		ballPosition_x = 320;
+		ballPosition_y = 240;
 		
-		player1y = (v_pixels / 2) - (paddle_height / 2);
-		player2y = (v_pixels / 2) - (paddle_height / 2);
-			if (difficulty_pressed) begin
-				if (difficulty_pressed && !last_difficulty_pressed) begin
-					difficulty <= (difficulty + 1) % 3;
+		ballVelocity_x = -2;
+		ballVelocity_y = 0;
+	end
+
+	always @(posedge frame_clk) begin
+		last_end_of_frame <= end_of_frame;
+		
+		// game is frozen until the pause button is pressed, resets if game_over == 1
+		if (pause_pressed) begin
+			if (game_over) begin
+				player1_score <= 0;
+				player2_score <= 0;
+				game_over <= 0;
+			end
+			paused = 0;
+		end
+		
+		if (frame_tick) begin
+			blink_counter <= blink_counter + 1;
+			if (!paused) begin
+				// paddle movement
+				// Player 1
+				if (!player1e && !player1f && player1y + paddle_height + 4 <= v_pixels) // down
+					player1y <= player1y + 4;
+				else if (!player1e && player1f && player1y >= 4) // up
+					player1y <= player1y - 4;
+					
+				// player 2
+				if (!player2e && !player2f && player2y + paddle_height + 4 <= v_pixels) // down
+					player2y <= player2y + 4;
+				else if (!player2e && player2f && player2y >= 4) // up
+					player2y <= player2y - 4;
+					
+				// ball movement
+				if (hit_left_paddle | hit_right_paddle) begin
+					ballVelocity_x = -ballVelocity_x; // Ball hits paddle
+					ballPosition_x = ballPosition_x + ballVelocity_x;
+					ballPosition_y = ballPosition_y + ballVelocity_y;
+					// did it hit left or right paddle, speed up in proper direction, capped at speed 9
+					if (hit_left_paddle) begin
+						ballVelocity_x = (ballVelocity_x < 10'd9) ? ballVelocity_x + 1 : ballVelocity_x;
+						ballVelocity_y = new_vy;
+					end else if (hit_right_paddle) begin
+						ballVelocity_y = new_vy;
+						ballVelocity_x = (-ballVelocity_x < 10'd9) ? ballVelocity_x - 1 : ballVelocity_x;
+					end
+				end else if (!out_right && !out_left && !out_bottom && !out_top) begin
+					ballPosition_x = ballPosition_x + ballVelocity_x; // general ball movement case
+					ballPosition_y = ballPosition_y + ballVelocity_y;
+					
+				end else if (out_right | out_left) begin
+					ballPosition_x = h_pixels / 2; //Game paused, resetting to neutral state
+					ballPosition_y = v_pixels / 2;
+					player1y <= (v_pixels / 2) - (paddle_height / 2);
+					player2y <= (v_pixels / 2) - (paddle_height / 2);
+					
+					paused = 1;
+					
+					// scoring to the player correctly
+					if (out_right) begin
+						player1_score <= player1_score + 1;
+						if (player1_score == win_score - 1) begin
+							game_over <= 1;
+						end
+						player_scored = 0;
+					end else begin
+						player2_score <= player2_score + 1;
+						player_scored = 1;
+						if (player2_score == win_score - 1) begin
+							game_over <= 1;
+						end
+					end
+					
+					// resetting ball velocity, velocity_x goes towards the player who just got scored on
+					ballVelocity_x = player_scored ? -2 : 2;
+					ballVelocity_y = 0;
+					
+				end else if (out_top | out_bottom) begin
+					ballVelocity_y = -ballVelocity_y; // case where the ball hits the horizontal walls
+					ballPosition_x = ballPosition_x + ballVelocity_x;
+					ballPosition_y = ballPosition_y + ballVelocity_y;
+				end
+			end else begin // setting the difficulty, 
+			last_difficulty_pressed <= difficulty_pressed;
+			
+			player1y <= (v_pixels / 2) - (paddle_height / 2);
+			player2y <= (v_pixels / 2) - (paddle_height / 2);
+				if (difficulty_pressed) begin
+				// adjust out of 3 difficulties which changes the size of the paddle
+					if (difficulty_pressed && !last_difficulty_pressed) begin
+						difficulty <= (difficulty + 1) % 3;
+					end
 				end
 			end
 		end
 	end
-end
 
-assign red = (player1overlap | player2overlap | ballOverlap) ? 4'hf : 4'h0;
-assign green = (player1overlap | player2overlap | ballOverlap) ? 4'hf : 4'h0;
-assign blue = (player1overlap | player2overlap | ballOverlap) ? 4'hf : 4'h0;
+	// draw everything to the screen (white on black background)
+	wire object_on = player1overlap | player2overlap | ballOverlap | text_visible;
+
+	assign red = object_on ? 4'hf : 4'h0;
+	assign green = object_on ? 4'hf : 4'h0;
+	assign blue = object_on ? 4'hf : 4'h0;
 
 endmodule

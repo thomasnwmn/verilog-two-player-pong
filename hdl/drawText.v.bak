@@ -1,0 +1,57 @@
+module drawText #(
+	parameter SCALE_SHIFT = 2              // each font pixel = 2^SCALE_SHIFT screen pixels (2 -> 4x4)
+)(
+	input  [9:0] col,
+	input  [8:0] row,
+	input  [9:0] x,                        // top-left corner of the text box
+	input  [8:0] y,
+	input  [1:0] msg,                      // 0 = "PAUSED", 1 = "P1 WINS", 2 = "P2 WINS"
+	output       on
+);
+	localparam NUM_CHARS = 7;
+	localparam CELL      = 8 << SCALE_SHIFT;        // character size in screen pixels (32)
+
+	// Is this pixel inside the text box?
+	wire inside = (col >= x) && (col < x + NUM_CHARS * CELL) &&
+	              (row >= y) && (row < y + CELL);
+
+	// Position inside the box
+	wire [9:0] lx = col - x;
+	wire [8:0] ly = row - y;
+
+	wire [2:0] char_idx = lx >> (SCALE_SHIFT + 3);  // which character (0-6)
+	wire [2:0] px       = lx >> SCALE_SHIFT;        // column inside the 8x8 glyph (low 3 bits)
+	wire [2:0] py       = ly >> SCALE_SHIFT;        // row inside the 8x8 glyph
+
+	// Messages: 7 character codes each, first character in the top 4 bits
+	// codes: 0=' ' 1=P 2=A 3=U 4=S 5=E 6=D 7=1 8=2 9=W 10=I 11=N
+	wire [27:0] text =
+		(msg == 2'd0) ? {4'd1, 4'd2, 4'd3, 4'd4, 4'd5,  4'd6,  4'd0} :   // "PAUSED "
+		(msg == 2'd1) ? {4'd1, 4'd7, 4'd0, 4'd9, 4'd10, 4'd11, 4'd4} :   // "P1 WINS"
+		                {4'd1, 4'd8, 4'd0, 4'd9, 4'd10, 4'd11, 4'd4};    // "P2 WINS"
+
+	wire [3:0] code = text[27 - char_idx * 4 -: 4];
+
+	// Font: 8 rows x 8 bits, top row in the highest byte, leftmost pixel = highest bit
+	reg [63:0] glyph;
+	always @(*) begin
+		case (code)
+			4'd1:    glyph = 64'h7844447840404000;   // P
+			4'd2:    glyph = 64'h3844447C44444400;   // A
+			4'd3:    glyph = 64'h4444444444443800;   // U
+			4'd4:    glyph = 64'h3C40403804047800;   // S
+			4'd5:    glyph = 64'h7C40407840407C00;   // E
+			4'd6:    glyph = 64'h7844444444447800;   // D
+			4'd7:    glyph = 64'h1030101010103800;   // 1
+			4'd8:    glyph = 64'h3844040810207C00;   // 2
+			4'd9:    glyph = 64'h44444454546C4400;   // W
+			4'd10:   glyph = 64'h3810101010103800;   // I
+			4'd11:   glyph = 64'h4464544C44444400;   // N
+			default: glyph = 64'h0000000000000000;   // space
+		endcase
+	end
+
+	// Pick the bit for this pixel: row py, column px
+	assign on = inside && glyph[63 - {py, px}];
+
+endmodule
